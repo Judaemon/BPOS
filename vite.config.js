@@ -15,5 +15,6 @@ export default defineConfig({
             host: 'localhost',
         },
         port: 5188,
+        strictPort: true,
     }
 });
