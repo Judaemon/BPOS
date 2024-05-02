@@ -6,29 +6,29 @@ import { Head } from '@inertiajs/react';
 export default function Products({ auth }) {
   const columns = [
     {
-      accessor: 'id',
+      accessorKey: 'id',
       header: 'ID',
     },
     {
-      accessor: 'name',
+      accessorKey: 'name',
       header: 'Name',
     },
     {
-      accessor: 'price',
+      accessorKey: 'price',
       header: 'Price',
     },
   ];
 
   const data = [
     {
-      id: 1,
-      name: 'Product 1',
-      price: 100,
+      "id": 1,
+      "name": 'Product 1',
+      "price": 500,
     },
     {
-      id: 2,
-      name: 'Product 2',
-      price: 200,
+      "id": 2,
+      "name": 'Product 2',
+      "price": 1000,
     },
   ];
 
@@ -45,12 +45,8 @@ export default function Products({ auth }) {
 
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div className="p-6 text-gray-900 dark:text-gray-100">Products qweqwe!</div>
-
-            <Button variant="destructive" onClick={() => console.log('test')}>
-              test
-            </Button>
+          <div className="p-6 space-y-6 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div className="text-gray-900 dark:text-gray-100">Products!</div>
 
             <DataTable columns={columns} data={data} />
           </div>
