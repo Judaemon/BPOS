@@ -3,22 +3,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Button } from '@/shadcn/ui/button';
 import { Head } from '@inertiajs/react';
 
-export default function Products({ auth }) {
-  const columns = [
-    {
-      accessorKey: 'id',
-      header: 'ID',
-    },
-    {
-      accessorKey: 'name',
-      header: 'Name',
-    },
-    {
-      accessorKey: 'price',
-      header: 'Price',
-    },
-  ];
+import { columns } from '@/Components/Products/ProductsColumns';
 
+export default function Products({ auth }) {
   const data = [
     {
       "id": 1,
