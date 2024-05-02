@@ -1,5 +1,3 @@
-'use client';
-
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shadcn/ui/table';
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 
