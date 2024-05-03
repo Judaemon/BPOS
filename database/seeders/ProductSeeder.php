@@ -13,7 +13,7 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {   
-        $statuses = ['available', 'out_of_stock', 'active', 'disabled'];
+        $statuses = ['available', 'out_of_stock', 'enabled', 'disabled'];
         
         // Generate 20 products for construction company
         for ($i = 0; $i < 20; $i++) {
