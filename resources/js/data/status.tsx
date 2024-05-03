@@ -5,7 +5,7 @@ export const AVAILABLE = {
 
 export const OUT_OF_STOCK = {
     label: 'Out of Stock',
-    value: 'out of stock',
+    value: 'out_of_stock',
 };
 
 export const PRODUCT_STATUS = [
