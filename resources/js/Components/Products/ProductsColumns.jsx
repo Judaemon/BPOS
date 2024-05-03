@@ -1,6 +1,6 @@
 import { Button } from "@/shadcn/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shadcn/ui/dropdown-menu"
-import { MoreHorizontal } from "lucide-react"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 
 export const columns = [
     {
@@ -8,8 +8,18 @@ export const columns = [
       header: 'ID',
     },
     {
-      accessorKey: 'name',
-      header: 'Name',
+      accessorKey: "name",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Name
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
     },
     {
       accessorKey: "price",
