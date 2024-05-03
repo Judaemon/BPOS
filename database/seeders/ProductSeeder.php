@@ -12,14 +12,18 @@ class ProductSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
+    {   
+        $statuses = ['available', 'out_of_stock', 'active', 'disabled'];
+        
         // Generate 20 products for construction company
         for ($i = 0; $i < 20; $i++) {
             Product::create([
                 'name' => 'Product ' . ($i + 1),
                 'description' => 'Description of Product ' . ($i + 1),
-                'cost' => rand(50, 200), // Random cost between 50 and 100
-                'price' => rand(100, 500), // Random price between 100 and 150
+                'stock' => rand(0, 100),
+                'cost' => rand(50, 200),
+                'price' => rand(100, 500),
+                'status' => $statuses[rand(0, 3)],
             ]);
         }
     }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('stock')->default(0);
             $table->decimal('cost', 15, 2);
             $table->decimal('price', 15, 2);
-            $table->enum('status', ['available', 'out_of_stock', 'active', 'disabled'])->default('disabled');
+            $table->string('status')->default('active');
             $table->timestamps();
         });
     }

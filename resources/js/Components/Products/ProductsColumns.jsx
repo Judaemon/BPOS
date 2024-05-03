@@ -1,7 +1,7 @@
 import { Button } from "@/shadcn/ui/button"
 import { Checkbox } from "@/shadcn/ui/checkbox"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shadcn/ui/dropdown-menu"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { MoreHorizontal } from "lucide-react"
 import { DataTableColumnHeader } from "../DataTable/data-table-column-header"
 
 export const columns = [
@@ -40,6 +40,27 @@ export const columns = [
       ),
     },
     {
+      accessorKey: "stock",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Stock" />
+      ),
+    },
+    {
+      accessorKey: "cost",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Cost" />
+      ),
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("cost"))
+        const formatted = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "PHP",
+        }).format(amount)
+  
+        return <div className="font-medium">{formatted}</div>
+      },
+    },
+    {
       accessorKey: "price",
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Price" />
@@ -53,6 +74,12 @@ export const columns = [
   
         return <div className="font-medium">{formatted}</div>
       },
+    },
+    {
+      accessorKey: "status",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Status" />
+      ),
     },
     {
       id: "actions",
