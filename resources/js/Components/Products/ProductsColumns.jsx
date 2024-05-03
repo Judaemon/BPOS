@@ -2,6 +2,7 @@ import { Button } from "@/shadcn/ui/button"
 import { Checkbox } from "@/shadcn/ui/checkbox"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shadcn/ui/dropdown-menu"
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { DataTableColumnHeader } from "../DataTable/data-table-column-header"
 
 export const columns = [
     {
@@ -28,25 +29,21 @@ export const columns = [
     },
     {
       accessorKey: 'id',
-      header: 'ID',
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="ID" />
+      ),
     },
     {
       accessorKey: "name",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Name
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        )
-      },
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Name" />
+      ),
     },
     {
       accessorKey: "price",
-      header: () => <div className="text-right">Price</div>,
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Price" />
+      ),
       cell: ({ row }) => {
         const amount = parseFloat(row.getValue("price"))
         const formatted = new Intl.NumberFormat("en-US", {
@@ -54,7 +51,7 @@ export const columns = [
           currency: "PHP",
         }).format(amount)
   
-        return <div className="text-right font-medium">{formatted}</div>
+        return <div className="font-medium">{formatted}</div>
       },
     },
     {
