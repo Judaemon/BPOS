@@ -5,7 +5,7 @@ import { Head } from '@inertiajs/react';
 
 import { columns } from '@/Components/Products/ProductsColumns';
 
-export default function Products({ auth }) {
+export default function Products({ auth, products }) {
   const data = [
     {
       "id": 1,
