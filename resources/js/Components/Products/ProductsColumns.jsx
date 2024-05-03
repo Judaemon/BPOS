@@ -1,92 +1,87 @@
-import { Button } from "@/shadcn/ui/button"
-import { Checkbox } from "@/shadcn/ui/checkbox"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/shadcn/ui/dropdown-menu"
-import { MoreHorizontal } from "lucide-react"
-import { DataTableColumnHeader } from "../DataTable/data-table-column-header"
+import { Button } from '@/shadcn/ui/button';
+import { Checkbox } from '@/shadcn/ui/checkbox';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/shadcn/ui/dropdown-menu';
+import { MoreHorizontal } from 'lucide-react';
+import { DataTableColumnHeader } from '../DataTable/data-table-column-header';
 
 export const columns = [
-    {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
+  {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'id',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="ID" />,
+  },
+  {
+    accessorKey: 'name',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
+  },
+  {
+    accessorKey: 'stock',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Stock" />,
+  },
+  {
+    accessorKey: 'cost',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Cost" />,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue('cost'));
+      const formatted = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'PHP',
+      }).format(amount);
+
+      return <div className="font-medium">{formatted}</div>;
     },
-    {
-      accessorKey: 'id',
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="ID" />
-      ),
+  },
+  {
+    accessorKey: 'price',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Price" />,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue('price'));
+      const formatted = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'PHP',
+      }).format(amount);
+
+      return <div className="font-medium">{formatted}</div>;
     },
-    {
-      accessorKey: "name",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Name" />
-      ),
-    },
-    {
-      accessorKey: "stock",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Stock" />
-      ),
-    },
-    {
-      accessorKey: "cost",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Cost" />
-      ),
-      cell: ({ row }) => {
-        const amount = parseFloat(row.getValue("cost"))
-        const formatted = new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "PHP",
-        }).format(amount)
-  
-        return <div className="font-medium">{formatted}</div>
-      },
-    },
-    {
-      accessorKey: "price",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Price" />
-      ),
-      cell: ({ row }) => {
-        const amount = parseFloat(row.getValue("price"))
-        const formatted = new Intl.NumberFormat("en-US", {
-          style: "currency",
-          currency: "PHP",
-        }).format(amount)
-  
-        return <div className="font-medium">{formatted}</div>
-      },
-    },
-    {
-      accessorKey: "status",
-      header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Status" />
-      ),
-    },
-    {
-      id: "actions",
-      header: () => <div className="text-le">Actions</div>,
-      cell: ({ row }) => {
-        const payment = row.original
-        return (
+  },
+  {
+    accessorKey: 'status',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
+  },
+  {
+    id: 'actions',
+    header: () => <div className="text-le">Actions</div>,
+    cell: ({ row }) => {
+      const payment = row.original;
+      return (
+        <div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
@@ -96,18 +91,19 @@ export const columns = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(payment.id)}
-              >
-                Copy payment ID
+              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>
+                Copy ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>View customer</DropdownMenuItem>
-              <DropdownMenuItem>View payment details</DropdownMenuItem>
+              <DropdownMenuItem>View </DropdownMenuItem>
+              <DropdownMenuItem>Update</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Enable</DropdownMenuItem>
+              <DropdownMenuItem>Disable</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        )
-      },
+        </div>
+      );
     },
-  ]
-  
+  },
+];

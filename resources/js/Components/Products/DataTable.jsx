@@ -1,11 +1,3 @@
-import { Button } from '@/shadcn/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/shadcn/ui/dropdown-menu';
-import { Input } from '@/shadcn/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shadcn/ui/table';
 import {
   flexRender,
@@ -45,7 +37,7 @@ export function DataTable({ columns, data }) {
   });
 
   return (
-    <div className='space-y-4'>
+    <div className="space-y-4">
       <DataTableToolbar table={table} />
 
       <div className="rounded-md border">
@@ -86,7 +78,7 @@ export function DataTable({ columns, data }) {
           </TableBody>
         </Table>
       </div>
-      
+
       <DataTablePagination table={table} />
     </div>
   );
