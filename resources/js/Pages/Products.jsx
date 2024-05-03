@@ -6,18 +6,6 @@ import { Head } from '@inertiajs/react';
 import { columns } from '@/Components/Products/ProductsColumns';
 
 export default function Products({ auth, products }) {
-  const data = [
-    {
-      "id": 1,
-      "name": 'Product 1',
-      "price": 500,
-    },
-    {
-      "id": 2,
-      "name": 'Product 2',
-      "price": 1000,
-    },
-  ];
 
   return (
     <AuthenticatedLayout
@@ -35,7 +23,7 @@ export default function Products({ auth, products }) {
           <div className="p-6 space-y-6 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="text-gray-900 dark:text-gray-100">Products!</div>
 
-            <DataTable columns={columns} data={data} />
+            <DataTable columns={columns} data={products} />
           </div>
         </div>
       </div>
