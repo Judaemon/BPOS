@@ -1,3 +1,4 @@
+import { capitalizeFirstLetter } from '@/Helpers/StringHelper';
 import {
   Dialog,
   DialogContent,
@@ -7,17 +8,18 @@ import {
   DialogTrigger,
 } from '@/shadcn/ui/dialog';
 
-export default function ProductDialog({ Product, setProduct, action }) {
-  console.log(Product, action);
+export default function ProductDialog({ product, setProduct, action, dialogTrigger }) {
+  console.log(product, action);
   return (
     <Dialog>
-      <DialogTrigger>Open</DialogTrigger>
+      <DialogTrigger>
+        {dialogTrigger}
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogTitle>{capitalizeFirstLetter(action)} {product.name}</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your account and remove your
-            data from our servers.
+            [form]
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

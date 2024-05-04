@@ -10,6 +10,7 @@ import {
 } from '@/shadcn/ui/dropdown-menu';
 import { MoreHorizontal } from 'lucide-react';
 import { DataTableColumnHeader } from '../DataTable/data-table-column-header';
+import ProductDialog from './ProductDialog';
 
 export const columns = [
   {
@@ -79,7 +80,7 @@ export const columns = [
     id: 'actions',
     header: () => <div className="text-le">Actions</div>,
     cell: ({ row }) => {
-      const payment = row.original;
+      const product = row.original;
       return (
         <div>
           <DropdownMenu>
@@ -91,13 +92,21 @@ export const columns = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>
+
+              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(product.id)}>
                 Copy ID
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>View </DropdownMenuItem>
+
+              <ProductDialog
+                product={product}
+                setProduct={() => { console.log("set product") }}
+                action="viewing"
+                dialogTrigger={<div className='pl-2'>View</div>}
+              />
               <DropdownMenuItem>Update</DropdownMenuItem>
               <DropdownMenuSeparator />
+
               <DropdownMenuItem>Enable</DropdownMenuItem>
               <DropdownMenuItem>Disable</DropdownMenuItem>
             </DropdownMenuContent>
