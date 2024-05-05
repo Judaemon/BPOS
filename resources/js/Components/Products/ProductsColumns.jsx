@@ -100,9 +100,11 @@ export const columns = [
 
               <ProductDialog
                 product={product}
-                setProduct={() => { console.log("set product") }}
+                setProduct={() => {
+                  console.log('set product');
+                }}
                 action="viewing"
-                dialogTrigger={<div className='pl-2'>View</div>}
+                dialogTrigger={<div className="pl-2">View</div>}
               />
               <DropdownMenuItem>Update</DropdownMenuItem>
               <DropdownMenuSeparator />
