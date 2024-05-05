@@ -19,8 +19,8 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth'])->prefix('/products')->group(function () {
-    Route::get('/', [ProductController::class, 'index'])->name('products');
+Route::middleware(['auth'])->group(function () {
+    Route::resource('/product', ProductController::class);
 });
 
 Route::middleware('auth')->group(function () {

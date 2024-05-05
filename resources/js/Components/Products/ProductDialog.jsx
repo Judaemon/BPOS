@@ -9,38 +9,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/shadcn/ui/dialog';
-// import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/shadcn/ui/form';
 import { Input } from '@/shadcn/ui/input';
 import { Button } from '@/shadcn/ui/button';
 import { useToast } from '@/shadcn/ui/use-toast';
-import { useForm } from '@inertiajs/react';
+import { router, useForm } from '@inertiajs/react';
 import { Label } from '@/shadcn/ui/label';
-
-// const ProductSchema = z.object({
-//   id: z.number().int().min(1),
-//   name: z.string().min(3).max(255),
-//   description: z.string().min(5).max(200),
-//   cost: z.number().min(0),
-//   price: z.number().min(0).max(9999999999999),
-//   stock: z.number().int().min(0).max(9999999999999),
-//   status: z.enum(['available', 'out_of_stock', 'enabled', 'disabled']),
-// });
+import InputError from '../InputError';
 
 export default function ProductDialog({ product, setProduct, action, dialogTrigger }) {
   const { toast } = useToast();
 
-  const { data, setData, post, processing, errors } = useForm({
+  const { data, setData, post, processing, errors, setError, clearErrors } = useForm({
     id: product.id,
     name: product.name,
     description: product.description,
@@ -50,16 +29,31 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
     status: product.status,
   });
 
+  const updateProduct = async () => {
+    router.patch(`/product/${product.id}`, data, {
+      preserveScroll: true,
+      onSuccess: () => {
+        toast({
+          title: 'Product updated',
+          description: 'Product has been updated successfully',
+        });
+        clearErrors();
+      },
+      onError: (error) => {
+        setError(error);
+        toast({
+          title: 'Error updating product',
+          description: error.message,
+          status: 'error',
+        });
+      },
+    });
+  };
+
   function submitProduct(e) {
     e.preventDefault();
-    toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+
+    updateProduct();
   }
 
   console.log(product, action);
@@ -81,6 +75,8 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
                   onChange={(e) => setData('name', e.target.value)}
                   placeholder="Product name"
                 />
+
+                <InputError className="mt-2" message={errors.name} />
               </div>
 
               <div>
@@ -136,7 +132,9 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
                 />
               </div>
 
-              <Button type="submit">Submit</Button>
+              <Button disabled={processing} type="submit">
+                Submit
+              </Button>
             </form>
           </DialogDescription>
         </DialogHeader>
