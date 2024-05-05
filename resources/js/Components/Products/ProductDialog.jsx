@@ -60,7 +60,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
   return (
     <Dialog>
       <DialogTrigger>{dialogTrigger}</DialogTrigger>
-      <DialogContent>
+      <DialogContent className="overflow-y-scroll max-h-[calc(100vh-2rem)]">
         <DialogHeader>
           <DialogTitle>
             {capitalizeFirstLetter(action)} {product.name}
@@ -75,10 +75,29 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
                   onChange={(e) => setData('name', e.target.value)}
                   placeholder="Product name"
                 />
-
                 <InputError className="mt-2" message={errors.name} />
               </div>
 
+              <div>
+                <Label className="pl-1">Name</Label>
+                <Input
+                  className="m-1"
+                  value={data.name}
+                  onChange={(e) => setData('name', e.target.value)}
+                  placeholder="Product name"
+                />
+                <InputError className="mt-2" message={errors.name} />
+              </div>
+              <div>
+                <Label className="pl-1">Name</Label>
+                <Input
+                  className="m-1"
+                  value={data.name}
+                  onChange={(e) => setData('name', e.target.value)}
+                  placeholder="Product name"
+                />
+                <InputError className="mt-2" message={errors.name} />
+              </div>
               <div>
                 <Label className="pl-1">Description</Label>
                 <Input
@@ -87,6 +106,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
                   onChange={(e) => setData('description', e.target.value)}
                   placeholder="Product name"
                 />
+                <InputError className="mt-2" message={errors.description} />
               </div>
 
               <div>
@@ -98,6 +118,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
                   placeholder="Product cost"
                   type="number"
                 />
+                <InputError className="mt-2" message={errors.cost} />
               </div>
 
               <div>
@@ -109,6 +130,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
                   placeholder="Product price"
                   type="number"
                 />
+                <InputError className="mt-2" message={errors.price} />
               </div>
 
               <div>
@@ -120,6 +142,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
                   placeholder="Product price"
                   type="number"
                 />
+                <InputError className="mt-2" message={errors.stock} />
               </div>
 
               <div>
@@ -130,6 +153,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
                   onChange={(e) => setData('status', e.target.value)}
                   placeholder="Product price"
                 />
+                <InputError className="mt-2" message={errors.status} />
               </div>
 
               <Button disabled={processing} type="submit">
