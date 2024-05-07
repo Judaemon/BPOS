@@ -51,7 +51,24 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
   };
 
   const createProduct = async () => {
-    console.log("sqweqweqwe");
+    router.post(`/product`, data, {
+      preserveScroll: true,
+      onSuccess: () => {
+        toast({
+          title: 'Product created',
+          description: 'Product has been created successfully',
+        });
+        clearErrors();
+      },
+      onError: (error) => {
+        setError(error);
+        toast({
+          title: 'Error creating product',
+          description: error.message,
+          status: 'error',
+        });
+      },
+    });
   };
 
   function submitProduct(e) {
