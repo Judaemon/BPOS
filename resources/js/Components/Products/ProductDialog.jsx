@@ -19,14 +19,14 @@ import InputError from '../InputError';
 export default function ProductDialog({ product, setProduct, action, dialogTrigger }) {
   const { toast } = useToast();
 
-  const { data, setData, post, processing, errors, setError, clearErrors } = useForm({
-    id: product.id,
-    name: product.name,
-    description: product.description,
-    cost: product.cost,
-    price: product.price,
-    stock: product.stock,
-    status: product.status,
+  const { data, setData, post, processing, errors, setError, clearErrors, reset } = useForm({
+    id: product.id || null,
+    name: product.name || '',
+    description: product.description || '',
+    cost: product.cost || 0,
+    price: product.price || 0,
+    stock: product.stock || 0,
+    status: product.status || 'active',
   });
 
   const updateProduct = async () => {
@@ -50,20 +50,28 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
     });
   };
 
+  const createProduct = async () => {
+    console.log("sqweqweqwe");
+  };
+
   function submitProduct(e) {
     e.preventDefault();
 
-    updateProduct();
+    if (action === 'creating') {
+      createProduct();
+    }else if (action === 'updating') {
+      updateProduct();
+    }
   }
 
   console.log(product, action);
   return (
-    <Dialog>
+    <Dialog onOpenChange={() => reset()}>
       <DialogTrigger>{dialogTrigger}</DialogTrigger>
       <DialogContent className="overflow-y-scroll max-h-[calc(100vh-2rem)] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         <DialogHeader>
           <DialogTitle>
-            {capitalizeFirstLetter(action)} {product.name}
+            {capitalizeFirstLetter(action)} {product.name || 'product'}
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={submitProduct} className="mt-2 space-y-6">
@@ -136,7 +144,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
             <InputError className="mt-2" message={errors.status} />
           </div>
 
-          {action === 'create' && (
+          {(action === 'creating' || action === 'updating') && (
             <div className="flex justify-end">
               <Button className="" disabled={processing} type="submit">
                 Submit

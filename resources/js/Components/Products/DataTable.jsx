@@ -10,6 +10,7 @@ import {
 import { useState } from 'react';
 import { DataTablePagination } from '../DataTable/data-table-pagination';
 import { DataTableToolbar } from '../DataTable/data-table-toolbar';
+import ProductDialog from './ProductDialog';
 
 export function DataTable({ columns, data }) {
   const [sorting, setSorting] = useState([]);
@@ -38,7 +39,19 @@ export function DataTable({ columns, data }) {
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <div className="flex justify-between gap-2">
+        <div className="w-full">
+          <DataTableToolbar table={table} />
+        </div>
+        <ProductDialog
+          product={{}}
+          setProduct={() => {
+            console.log('set product');
+          }}
+          action="creating"
+          dialogTrigger={<div className="pl-2">View</div>}
+        />
+      </div>
 
       <div className="rounded-md border">
         <Table>
