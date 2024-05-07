@@ -106,7 +106,14 @@ export const columns = [
                 action="viewing"
                 dialogTrigger={<div className="pl-2">View</div>}
               />
-              <DropdownMenuItem>Update</DropdownMenuItem>
+              <ProductDialog
+                product={product}
+                setProduct={() => {
+                  console.log('set product');
+                }}
+                action="updating"
+                dialogTrigger={<div className="pl-2">Update</div>}
+              />
               <DropdownMenuSeparator />
 
               <DropdownMenuItem>Enable</DropdownMenuItem>
