@@ -60,108 +60,90 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
   return (
     <Dialog>
       <DialogTrigger>{dialogTrigger}</DialogTrigger>
-      <DialogContent className="overflow-y-scroll max-h-[calc(100vh-2rem)]">
+      <DialogContent className="overflow-y-scroll max-h-[calc(100vh-2rem)] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         <DialogHeader>
           <DialogTitle>
             {capitalizeFirstLetter(action)} {product.name}
           </DialogTitle>
-          <DialogDescription>
-            <form onSubmit={submitProduct} className="w-2/3 mt-2 space-y-6">
-              <div>
-                <Label className="pl-1">Name</Label>
-                <Input
-                  className="m-1"
-                  value={data.name}
-                  onChange={(e) => setData('name', e.target.value)}
-                  placeholder="Product name"
-                />
-                <InputError className="mt-2" message={errors.name} />
-              </div>
+        </DialogHeader>
+        <form onSubmit={submitProduct} className="mt-2 space-y-6">
+          <div>
+            <Label className="pl-1">Name</Label>
+            <Input
+              className="m-1"
+              value={data.name}
+              onChange={(e) => setData('name', e.target.value)}
+              placeholder="Product name"
+            />
+            <InputError className="mt-2" message={errors.name} />
+          </div>
 
-              <div>
-                <Label className="pl-1">Name</Label>
-                <Input
-                  className="m-1"
-                  value={data.name}
-                  onChange={(e) => setData('name', e.target.value)}
-                  placeholder="Product name"
-                />
-                <InputError className="mt-2" message={errors.name} />
-              </div>
-              <div>
-                <Label className="pl-1">Name</Label>
-                <Input
-                  className="m-1"
-                  value={data.name}
-                  onChange={(e) => setData('name', e.target.value)}
-                  placeholder="Product name"
-                />
-                <InputError className="mt-2" message={errors.name} />
-              </div>
-              <div>
-                <Label className="pl-1">Description</Label>
-                <Input
-                  className="m-1"
-                  value={data.description}
-                  onChange={(e) => setData('description', e.target.value)}
-                  placeholder="Product name"
-                />
-                <InputError className="mt-2" message={errors.description} />
-              </div>
+          <div>
+            <Label className="pl-1">Description</Label>
+            <Input
+              className="m-1"
+              value={data.description}
+              onChange={(e) => setData('description', e.target.value)}
+              placeholder="Product name"
+            />
+            <InputError className="mt-2" message={errors.description} />
+          </div>
 
-              <div>
-                <Label className="pl-1">Cost</Label>
-                <Input
-                  className="m-1"
-                  value={data.cost}
-                  onChange={(e) => setData('cost', e.target.value)}
-                  placeholder="Product cost"
-                  type="number"
-                />
-                <InputError className="mt-2" message={errors.cost} />
-              </div>
+          <div>
+            <Label className="pl-1">Cost</Label>
+            <Input
+              className="m-1"
+              value={data.cost}
+              onChange={(e) => setData('cost', e.target.value)}
+              placeholder="Product cost"
+              type="number"
+            />
+            <InputError className="mt-2" message={errors.cost} />
+          </div>
 
-              <div>
-                <Label className="pl-1">Price</Label>
-                <Input
-                  className="m-1"
-                  value={data.price}
-                  onChange={(e) => setData('price', e.target.value)}
-                  placeholder="Product price"
-                  type="number"
-                />
-                <InputError className="mt-2" message={errors.price} />
-              </div>
+          <div>
+            <Label className="pl-1">Price</Label>
+            <Input
+              className="m-1"
+              value={data.price}
+              onChange={(e) => setData('price', e.target.value)}
+              placeholder="Product price"
+              type="number"
+            />
+            <InputError className="mt-2" message={errors.price} />
+          </div>
 
-              <div>
-                <Label className="pl-1">Stock</Label>
-                <Input
-                  className="m-1"
-                  value={data.stock}
-                  onChange={(e) => setData('stock', e.target.value)}
-                  placeholder="Product price"
-                  type="number"
-                />
-                <InputError className="mt-2" message={errors.stock} />
-              </div>
+          <div>
+            <Label className="pl-1">Stock</Label>
+            <Input
+              className="m-1"
+              value={data.stock}
+              onChange={(e) => setData('stock', e.target.value)}
+              placeholder="Product price"
+              type="number"
+            />
+            <InputError className="mt-2" message={errors.stock} />
+          </div>
 
-              <div>
-                <Label className="pl-1">Status</Label>
-                <Input
-                  className="m-1"
-                  value={data.status}
-                  onChange={(e) => setData('status', e.target.value)}
-                  placeholder="Product price"
-                />
-                <InputError className="mt-2" message={errors.status} />
-              </div>
+          <div>
+            <Label className="pl-1">Status</Label>
+            <Input
+              className="m-1"
+              value={data.status}
+              onChange={(e) => setData('status', e.target.value)}
+              placeholder="Product price"
+            />
+            <InputError className="mt-2" message={errors.status} />
+          </div>
 
-              <Button disabled={processing} type="submit">
+          {action === 'create' && (
+            <div className="flex justify-end">
+              <Button className="" disabled={processing} type="submit">
                 Submit
               </Button>
-            </form>
-          </DialogDescription>
-        </DialogHeader>
+            </div>
+          )}
+        </form>
       </DialogContent>
     </Dialog>
   );
