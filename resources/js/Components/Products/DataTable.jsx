@@ -51,7 +51,7 @@ export function DataTable({ columns, data }) {
           }}
           action="creating"
           dialogTrigger={
-            <Button size='sm' variant='default'>
+            <Button asChild size='sm' variant='default'>
               Create
             </Button>
           }
