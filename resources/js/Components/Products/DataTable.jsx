@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { DataTablePagination } from '../DataTable/data-table-pagination';
 import { DataTableToolbar } from '../DataTable/data-table-toolbar';
 import ProductDialog from './ProductDialog';
+import { Button } from '@/shadcn/ui/button';
 
 export function DataTable({ columns, data }) {
   const [sorting, setSorting] = useState([]);
@@ -49,7 +50,11 @@ export function DataTable({ columns, data }) {
             console.log('set product');
           }}
           action="creating"
-          dialogTrigger={<div className="pl-2">View</div>}
+          dialogTrigger={
+            <Button size='sm' variant='default'>
+              Create
+            </Button>
+          }
         />
       </div>
 
