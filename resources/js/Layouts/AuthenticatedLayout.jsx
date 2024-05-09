@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
+import NavLink from '@/Components/NavLink';
+import { hasRole } from '@/lib/permissions';
+import Dropdown from '@/Components/Dropdown';
 import { Toaster } from '@/shadcn/ui/toaster';
+import ApplicationLogo from '@/Components/ApplicationLogo';
+import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 
 export default function Authenticated({ user, header, children }) {
   const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
@@ -26,9 +27,11 @@ export default function Authenticated({ user, header, children }) {
                   Dashboard
                 </NavLink>
 
-                <NavLink href={route('product.index')} active={route().current('product.index')}>
-                  Products
-                </NavLink>
+                {hasRole('admin') && (
+                  <NavLink href={route('product.index')} active={route().current('product.index')}>
+                    Products
+                  </NavLink>
+                )}
               </div>
             </div>
 
