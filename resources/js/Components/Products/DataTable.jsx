@@ -1,3 +1,8 @@
+import { useState } from 'react';
+import ProductDialog from './ProductDialog';
+import { Button } from '@/shadcn/ui/button';
+import { DataTableToolbar } from './DataTableToolbar';
+import { DataTablePagination } from '../DataTable/data-table-pagination';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shadcn/ui/table';
 import {
   flexRender,
@@ -9,17 +14,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { useState } from 'react';
-import { DataTablePagination } from '../DataTable/data-table-pagination';
-import { DataTableToolbar } from '../DataTable/data-table-toolbar';
-import ProductDialog from './ProductDialog';
-import { Button } from '@/shadcn/ui/button';
 
 export function DataTable({ columns, data }) {
   const [sorting, setSorting] = useState([]);
+  const [rowSelection, setRowSelection] = useState({});
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
-  const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
     data,
@@ -31,8 +31,8 @@ export function DataTable({ columns, data }) {
       rowSelection,
     },
     enableRowSelection: true,
-    onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
+    onRowSelectionChange: setRowSelection,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
@@ -56,8 +56,8 @@ export function DataTable({ columns, data }) {
           }}
           action="creating"
           dialogTrigger={
-            <Button asChild size='sm' variant='default'>
-              Create
+            <Button asChild size="sm" variant="default" className="outline-none">
+              <span>Create</span>
             </Button>
           }
         />
