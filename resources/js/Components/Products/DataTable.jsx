@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import ProductDialog from './ProductDialog';
 import { Button } from '@/shadcn/ui/button';
 import { DataTableToolbar } from './DataTableToolbar';
@@ -49,17 +49,9 @@ export function DataTable({ columns, data }) {
         <div className="w-full">
           <DataTableToolbar table={table} />
         </div>
-        <ProductDialog
-          product={{}}
-          setProduct={() => {
-            console.log('set product');
-          }}
+
+        <MemoizedProductDialog
           action="creating"
-          dialogTrigger={
-            <Button asChild size="sm" variant="default" className="outline-none">
-              <span>Create</span>
-            </Button>
-          }
         />
       </div>
 
@@ -106,3 +98,17 @@ export function DataTable({ columns, data }) {
     </div>
   );
 }
+
+const MemoizedProductDialog = memo(function ProductDialogTest({ action }) {
+  return (
+    <ProductDialog
+      product={{}}
+      action={action}
+      dialogTrigger={
+        <Button asChild size="sm" variant="default" className="outline-none">
+          <span>Create</span>
+        </Button>
+      }
+    />
+  );
+});
