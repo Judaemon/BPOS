@@ -6,6 +6,7 @@ import Dropdown from '@/Components/Dropdown';
 import { Toaster } from '@/shadcn/ui/toaster';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
+import { Button } from '@/shadcn/ui/button';
 
 export default function Authenticated({ user, header, children }) {
   const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
@@ -33,7 +34,7 @@ export default function Authenticated({ user, header, children }) {
                   </NavLink>
                 )}
 
-                <NavLink href={route('orders')} active={route().current('orders')}>
+                <NavLink href={route('order.index')} active={route().current('order.index')}>
                   Orders
                 </NavLink>
 

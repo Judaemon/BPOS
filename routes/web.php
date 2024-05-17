@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -24,9 +25,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/orders', function () {
-        return Inertia::render('Orders');
-    })->name('orders');
+    Route::resource('/order', OrderController::class);
+
+    // // Route::get('/orders', function () {
+    // //     return Inertia::render('Orders');
+    // })->name('orders');
 });
 
 Route::middleware('auth')->group(function () {

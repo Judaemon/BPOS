@@ -1,10 +1,7 @@
-import { DataTable } from '@/Components/Products/DataTable';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Button } from '@/shadcn/ui/button';
 import { Head } from '@inertiajs/react';
 
-import { columns } from '@/Components/Products/ProductsColumns';
-import { DrawerDialogDemo } from '@/Components/Order/Dialog';
+import { DrawerDialogDemo } from '@/Components/Order/OrderDialog';
 
 export default function Products({ auth, products }) {
 
