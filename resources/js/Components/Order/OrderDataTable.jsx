@@ -1,8 +1,4 @@
-import { memo, useState } from 'react';
-import ProductDialog from './ProductDialog';
-import { Button } from '@/shadcn/ui/button';
-import { DataTableToolbar } from './DataTableToolbar';
-import { DataTablePagination } from '../DataTable/data-table-pagination';
+import { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shadcn/ui/table';
 import {
   flexRender,
@@ -14,6 +10,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { DataTablePagination } from '../DataTable/data-table-pagination';
 
 export function OrderDataTable({ columns, data }) {
   const [sorting, setSorting] = useState([]);
@@ -46,9 +43,7 @@ export function OrderDataTable({ columns, data }) {
   return (
     <div className="space-y-4">
       <div className="flex justify-between gap-2">
-        <div className="w-full">
-          <DataTableToolbar table={table} />
-        </div>
+        <div className="w-full">{/* <DataTableToolbar table={table} /> */}</div>
       </div>
 
       <div className="rounded-md border">
