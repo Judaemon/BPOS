@@ -27,6 +27,7 @@ export default function Products({ auth, products }) {
               <p>receipt here</p>
             </div>
             <OrderDataTable columns={OrderColumn} data={products} />
+            
           </div>
         </div>
       </div>

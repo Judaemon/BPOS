@@ -1,6 +1,7 @@
 import { Button } from '@/shadcn/ui/button';
 import { Checkbox } from '@/shadcn/ui/checkbox';
 import { DataTableColumnHeader } from '../DataTable/data-table-column-header';
+import { useCart } from '@/hooks/Cart';
 
 export const OrderColumn = [
   {
@@ -61,9 +62,15 @@ export const OrderColumn = [
     header: () => <div className="text-le">Actions</div>,
     cell: ({ row }) => {
       const product = row.original;
+
+      const handleAddToCart = () => {
+        console.log('Add to cart', product);
+      }
+      const [state, actions] = useCart();
+
       return (
         <div>
-          <Button>Add to basket</Button>
+          <Button onClick={actions.addItemToCart}>Add to basket</Button>
         </div>
       );
     },
