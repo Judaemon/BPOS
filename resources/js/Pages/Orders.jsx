@@ -1,4 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Button } from '@/shadcn/ui/button';
 import { Head } from '@inertiajs/react';
 import { OrderColumn } from '@/Components/Order/OrderColumns';
 import { OrderDataTable } from '@/Components/Order/OrderDataTable';
@@ -61,12 +62,21 @@ const CartList = () => {
   );
 };
 
-const QuantityInput = ({ item, onChange }) => {
+const QuantityInput = ({ item }) => {
+  const [state, actions] = useCart();
+
   return (
     <div className="flex space-x-4">
-      <p>-</p>
+      <Button variant="outline" onClick={() => actions.updateQuantity(item, item.quantity - 1)}>
+        -
+      </Button>
       <p className=" font-bold">{item.quantity}</p>
-      <p>+</p>
+      <Button
+        variant="outline"
+        onClick={() => actions.updateQuantity(item, parseInt(item.quantity) + 1)}
+      >
+        +
+      </Button>
     </div>
   );
 };
