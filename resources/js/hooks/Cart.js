@@ -1,19 +1,18 @@
-import { createStore, createHook } from 'react-sweet-state';
+import { createHook, createStore } from 'react-sweet-state';
 
 const Store = createStore({
-  initialState: { 
+  initialState: {
     items: [],
   },
   actions: {
-    addItemToCart:
-      (item) =>
+    addNewItem:
+      (item, quantity) =>
       ({ setState, getState }) => {
-        // const currentItems = getState().items;
+        const currentItems = [...getState().items];
 
-        // currentItems.push(item);
+        currentItems.push({ ...item, quantity });
 
-        // setState({ newItems: currentItems });
-        console.log('Add to cart', item);
+        setState({ items: currentItems });
       },
   },
 });
