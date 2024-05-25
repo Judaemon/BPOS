@@ -48,10 +48,15 @@ const CartList = () => {
             <QuantityInput item={item} />
           </div>
           <div className="w-5/12 text-right">
-            <p>{item.price * item.quantity}</p>
+            <p>{item.itemTotal}</p>
           </div>
         </div>
       ))}
+      <hr className="my-2" />
+      <div className="flex">
+        <div className="font-bold">Total</div>
+        <div className="ml-auto">₱ {state.total}</div>
+      </div>
     </div>
   );
 };
