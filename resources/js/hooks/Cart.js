@@ -10,6 +10,11 @@ const Store = createStore({
       (item, quantity) =>
       ({ setState, getState }) => {
         const currentItems = [...getState().items];
+
+        if (currentItems.find((i) => i.id === item.id)) {
+          window.alert('Item already exists in cart');
+          return;
+        }
         const currentTotal = getState().total;
 
         const itemTotal = item.price * quantity;
