@@ -29,7 +29,6 @@ export function AddToCartDrawerDialog({ item }) {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery('(min-width: 768px)');
 
-  console.log(item);
   const titleText = item.name ?? 'Item name not found';
 
   if (isDesktop) {
@@ -45,7 +44,7 @@ export function AddToCartDrawerDialog({ item }) {
               Add this item to your cart. You can adjust the quantity later.
             </DialogDescription>
           </DialogHeader>
-          <AddToCartForm item={item} />
+          <AddToCartForm item={item} onSubmit={setOpen} />
         </DialogContent>
       </Dialog>
     );
@@ -63,7 +62,7 @@ export function AddToCartDrawerDialog({ item }) {
             Add this item to your cart. You can adjust the quantity later. Make changes to your
           </DrawerDescription>
         </DrawerHeader>
-        <AddToCartForm item={item} className="px-4" />
+        <AddToCartForm item={item} className="px-4" onSubmit={setOpen} />
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>
@@ -74,11 +73,12 @@ export function AddToCartDrawerDialog({ item }) {
   );
 }
 
-const AddToCartForm = ({ item, className }) => {
+const AddToCartForm = ({ item, className, onSubmit }) => {
   const [quantity, setQuantity] = useState(1);
   const [state, actions] = useCart();
   const handleSubmit = (e) => {
     actions.addNewItem(item, quantity);
+    onSubmit(false);
   };
 
   return (

@@ -31,18 +31,37 @@ export default function Products({ auth, products }) {
 
 const CartList = () => {
   const [state, actions] = useCart();
+
+  if (state.items.length === 0) {
+    return <p>Cart is empty</p>;
+  }
+
   return (
     <div className="w-full">
-      <h1>Cart</h1>
-
       {state.items.map((item, index) => (
         <div className="flex w-full space-x-12" key={item.id + index}>
-          <p className="w-2/12">{item.name}</p>
-          <p>x</p>
-          <p>{item.quantity}</p>
-          <p>{item.price * item.quantity}</p>
+          <div className="flex justify-between w-7/12">
+            <div>
+              <p className="font-bold">{item.name}</p>
+              <p className="text-xs">₱ {item.price}</p>
+            </div>
+            <QuantityInput item={item} />
+          </div>
+          <div className="w-5/12 text-right">
+            <p>{item.price * item.quantity}</p>
+          </div>
         </div>
       ))}
+    </div>
+  );
+};
+
+const QuantityInput = ({ item, onChange }) => {
+  return (
+    <div className="flex space-x-4">
+      <p>-</p>
+      <p className=" font-bold">{item.quantity}</p>
+      <p>+</p>
     </div>
   );
 };
