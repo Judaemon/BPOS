@@ -65,9 +65,18 @@ const CartList = () => {
 const QuantityInput = ({ item }) => {
   const [state, actions] = useCart();
 
+  const handleReduceQuantity = () => {
+    if (item.quantity === 1) {
+      actions.removeItem(item);
+      return;
+    }
+
+    actions.updateQuantity(item, item.quantity - 1);
+  };
+
   return (
     <div className="flex space-x-4">
-      <Button variant="outline" onClick={() => actions.updateQuantity(item, item.quantity - 1)}>
+      <Button variant="outline" onClick={handleReduceQuantity}>
         -
       </Button>
       <p className=" font-bold">{item.quantity}</p>

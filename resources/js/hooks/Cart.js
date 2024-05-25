@@ -52,6 +52,25 @@ const Store = createStore({
 
         setState({ items: currentItems, total: newTotal });
       },
+    removeItem:
+      (item) =>
+      ({ setState, getState }) => {
+        const currentItems = [...getState().items];
+
+        const itemIndex = currentItems.findIndex((i) => i.id === item.id);
+
+        if (itemIndex < 0) {
+          window.alert('Item does not exist in cart');
+          return;
+        }
+
+        const currentTotal = getState().total;
+        const itemTotal = currentItems[itemIndex].itemTotal;
+
+        currentItems.splice(itemIndex, 1);
+
+        setState({ items: currentItems, total: currentTotal - itemTotal });
+      },
   },
 });
 
