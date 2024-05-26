@@ -19,7 +19,7 @@ const Store = createStore({
 
         const itemTotal = item.price * quantity;
 
-        currentItems.push({ ...item, quantity, itemTotal: itemTotal });
+        currentItems.push({ ...item, quantity, item_total: itemTotal });
 
         setState({ items: currentItems, total: currentTotal + itemTotal });
       },
@@ -35,7 +35,7 @@ const Store = createStore({
           return;
         }
 
-        const previousItemTotal = currentItems[itemIndex].itemTotal;
+        const previousItemTotal = currentItems[itemIndex].item_total;
         const itemTotal = item.price * newQuantity;
 
         // Update the item in the array
@@ -47,7 +47,6 @@ const Store = createStore({
 
         // Recompute the total
         const currentTotal = getState().total;
-        console.log(currentTotal, previousItemTotal, itemTotal);
         const newTotal = currentTotal - previousItemTotal + itemTotal;
 
         setState({ items: currentItems, total: newTotal });
@@ -65,11 +64,19 @@ const Store = createStore({
         }
 
         const currentTotal = getState().total;
-        const itemTotal = currentItems[itemIndex].itemTotal;
+        const itemTotal = currentItems[itemIndex].item_total;
 
         currentItems.splice(itemIndex, 1);
 
         setState({ items: currentItems, total: currentTotal - itemTotal });
+      },
+    checkout:
+      (payment) =>
+      ({ setState, getState }) => {
+        console.log('Checkout');
+        console.log('Payment:', payment);
+
+        // not implemented code is in CheckOutForm.jsx
       },
   },
 });

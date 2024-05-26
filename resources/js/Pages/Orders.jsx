@@ -1,5 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Button } from '@/shadcn/ui/button';
+import { CheckOutFormDrawerDialog } from '@/Components/Order/CheckOutForm';
 import { Head } from '@inertiajs/react';
 import { OrderColumn } from '@/Components/Order/OrderColumns';
 import { OrderDataTable } from '@/Components/Order/OrderDataTable';
@@ -49,7 +50,7 @@ const CartList = () => {
             <QuantityInput item={item} />
           </div>
           <div className="w-5/12 text-right">
-            <p>{item.itemTotal}</p>
+            <p>{item.item_total}</p>
           </div>
         </div>
       ))}
@@ -57,6 +58,10 @@ const CartList = () => {
       <div className="flex">
         <div className="font-bold">Total</div>
         <div className="ml-auto">₱ {state.total}</div>
+      </div>
+      <hr className="my-2" />
+      <div className="flex justify-end">
+        <CheckOutFormDrawerDialog />
       </div>
     </div>
   );
