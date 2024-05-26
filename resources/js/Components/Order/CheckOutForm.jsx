@@ -90,6 +90,7 @@ const CheckOutForm = ({ className, onSubmit }) => {
     console.log('submit');
 
     router.post('/sales', data);
+    onSubmit(false);
   };
 
   useEffect(() => {
