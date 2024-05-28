@@ -5,6 +5,7 @@ import { Head } from '@inertiajs/react';
 import { OrderColumn } from '@/Components/Order/OrderColumns';
 import { OrderDataTable } from '@/Components/Order/OrderDataTable';
 import { useCart } from '@/hooks/Cart';
+import { memo } from 'react';
 
 export default function Products({ auth, products }) {
   return (
@@ -40,19 +41,8 @@ const CartList = () => {
 
   return (
     <div className="w-full">
-      {state.items.map((item, index) => (
-        <div className="flex w-full space-x-12" key={item.id + index}>
-          <div className="flex justify-between w-7/12">
-            <div>
-              <p className="font-bold">{item.name}</p>
-              <p className="text-xs">₱ {item.price}</p>
-            </div>
-            <QuantityInput item={item} />
-          </div>
-          <div className="w-5/12 text-right">
-            <p>{item.item_total}</p>
-          </div>
-        </div>
+      {state.items.map((item) => (
+        <CartItem key={item.id} item={item} />
       ))}
       <hr className="my-2" />
       <div className="flex">
@@ -66,6 +56,23 @@ const CartList = () => {
     </div>
   );
 };
+
+const CartItem = memo(({ item }) => {
+  return (
+    <div className="flex w-full space-x-12" key={item.id}>
+      <div className="flex justify-between w-7/12">
+        <div>
+          <p className="font-bold">{item.name}</p>
+          <p className="text-xs">₱ {item.price}</p>
+        </div>
+        <QuantityInput item={item} />
+      </div>
+      <div className="w-5/12 text-right">
+        <p>{item.item_total}</p>
+      </div>
+    </div>
+  )
+});
 
 const QuantityInput = ({ item }) => {
   const [state, actions] = useCart();
