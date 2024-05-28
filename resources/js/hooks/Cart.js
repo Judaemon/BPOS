@@ -1,10 +1,13 @@
 import { createHook, createStore } from 'react-sweet-state';
+import { setLoading } from './helper';
+
 
 const Store = createStore({
   initialState: {
     items: [],
     total: 0,
-  },
+    loading: false,
+  },  
   actions: {
     addNewItem:
       (item, quantity) =>
@@ -25,50 +28,39 @@ const Store = createStore({
       },
     updateQuantity:
       (item, newQuantity) =>
-      ({ setState, getState }) => {
+      ({ setState, getState, dispatch }) => {
+        if (getState().loading === true) return;
+
+        dispatch(setLoading());
+
         const currentItems = [...getState().items];
-
         const itemIndex = currentItems.findIndex((i) => i.id === item.id);
-
-        if (itemIndex < 0) {
-          window.alert('Item does not exist in cart');
-          return;
-        }
-
+        const currentTotal = getState().total;
         const previousItemTotal = currentItems[itemIndex].item_total;
-        const itemTotal = item.price * newQuantity;
 
-        // Update the item in the array
+        const itemNewTotal = item.price * newQuantity;
+        const newTotal = (currentTotal - previousItemTotal) + itemNewTotal;
+
         currentItems[itemIndex] = {
           ...currentItems[itemIndex],
           quantity: newQuantity,
-          itemTotal: itemTotal,
+          item_total: itemNewTotal,
         };
 
-        // Recompute the total
-        const currentTotal = getState().total;
-        const newTotal = currentTotal - previousItemTotal + itemTotal;
-
-        setState({ items: currentItems, total: newTotal });
+        setState({ items: currentItems, total: newTotal, loading: false});
       },
     removeItem:
       (item) =>
       ({ setState, getState }) => {
         const currentItems = [...getState().items];
-
         const itemIndex = currentItems.findIndex((i) => i.id === item.id);
-
-        if (itemIndex < 0) {
-          window.alert('Item does not exist in cart');
-          return;
-        }
 
         const currentTotal = getState().total;
         const itemTotal = currentItems[itemIndex].item_total;
-
         currentItems.splice(itemIndex, 1);
 
-        setState({ items: currentItems, total: currentTotal - itemTotal });
+        const newTotal = currentTotal - itemTotal;
+        setState({ items: currentItems, total: newTotal });
       },
     checkout:
       (payment) =>
