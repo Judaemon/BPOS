@@ -12,10 +12,12 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $products = Product::query()
+        $products = fn () => (
+            Product::query()
             ->where('status', 'available')
-            ->get();
-            
+            ->get()
+        );
+
         return Inertia::render('Orders', [
             'products' => $products,
         ]);
