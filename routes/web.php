@@ -41,6 +41,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/test', [TestController::class, 'test']);
+// create route group for test
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/test', [TestController::class, 'test']);
+    Route::get('/test-mail', [TestController::class, 'testMail']);
+});
+
 
 require __DIR__.'/auth.php';
