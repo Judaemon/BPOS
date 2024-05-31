@@ -90,11 +90,10 @@ const CheckOutForm = ({ className, onSubmit }) => {
     console.log('submit');
 
     router.post('/sales', data);
-    onSubmit(false);
+    // onSubmit(false);
   };
 
   useEffect(() => {
-    console.log('effect');
     const change = data.payment - state.total;
 
     if (data.payment > state.total) {

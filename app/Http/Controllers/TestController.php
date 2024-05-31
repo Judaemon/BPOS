@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\HelloWorld;
 use App\Services\TestService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 
 class TestController extends Controller
@@ -24,7 +25,15 @@ class TestController extends Controller
     {
         $mail =  new HelloWorld(name: 'John Doe');
         
-        // Mail::to('jrj.nms@gmail.com')->send($mail);
+        Mail::to('jrj.nms@gmail.com')->send($mail);
         return $mail;
+    }
+
+    public function testPdf()
+    {
+        // return "PDF created successfully!";
+
+        $pdf = Pdf::loadView('pdf.receipt', []);
+        return $pdf->download('receipt.pdf');
     }
 }

@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/test', [TestController::class, 'test']);
     Route::get('/test-mail', [TestController::class, 'testMail']);
+    Route::get('/test-pdf', [TestController::class, 'testPdf']);
 });
 
 
