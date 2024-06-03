@@ -46,4 +46,10 @@ class TestController extends Controller
 
         return $pdf->download('receipt.pdf');
     }
+
+    public function testQueue()
+    {
+        dispatch(new \App\Jobs\SampleJob('hello world'));
+        return "Job dispatched successfully!";
+    }
 }
