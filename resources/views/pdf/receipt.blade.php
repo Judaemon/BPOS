@@ -7,9 +7,11 @@
     <!-- Tailwind CSS -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    {{-- for testing only.  you  need  to compile yung css to make this worked on prod --}}
     @viteReactRefresh
     @vite(['resources/js/app.jsx'])  
 
+    {{-- put your compiled css here --}}
     <style>
         *,:before,:after {
             box-sizing: border-box;
@@ -3486,15 +3488,15 @@
         <div class="mb-4">
             <h2 class="text-2xl font-semibold mb-2">Receipt</h2>
             <p class="text-gray-600">Date: {{ date('F j, Y') }}</p>
-            <p class="text-gray-600">Receipt #: 001234</p>
+            <p class="text-gray-600">Receipt #: {{ $receipt_number }}</p>
         </div>
 
-        <div class="mb-4">
+        {{-- <div class="mb-4">
             <h3 class="text-xl font-semibold mb-2">Billing Information</h3>
             <p class="text-gray-600">Customer Name</p>
             <p class="text-gray-600">customer@example.com</p>
             <p class="text-gray-600">5678 Another St, City, State, 67890</p>
-        </div>
+        </div> --}}
 
         <table class="w-full mb-6">
             <thead>
@@ -3506,40 +3508,31 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="border-b border-gray-200 py-2">Product 1</td>
-                    <td class="border-b border-gray-200 py-2 text-right">1</td>
-                    <td class="border-b border-gray-200 py-2 text-right">$10.00</td>
-                    <td class="border-b border-gray-200 py-2 text-right">$10.00</td>
-                </tr>
-                <tr>
-                    <td class="border-b border-gray-200 py-2">Product 2</td>
-                    <td class="border-b border-gray-200 py-2 text-right">2</td>
-                    <td class="border-b border-gray-200 py-2 text-right">$7.50</td>
-                    <td class="border-b border-gray-200 py-2 text-right">$15.00</td>
-                </tr>
-                <tr>
-                    <td class="border-b border-gray-200 py-2">Service 1</td>
-                    <td class="border-b border-gray-200 py-2 text-right">1</td>
-                    <td class="border-b border-gray-200 py-2 text-right">$20.00</td>
-                    <td class="border-b border-gray-200 py-2 text-right">$20.00</td>
-                </tr>
+                @foreach ($products as $product)
+                    <tr>
+                        <td class="border-b border-gray-200 py-2">{{ $product['name'] }}</td>
+                        <td class="border-b border-gray-200 py-2 text-right">{{ $product['quantity'] }}</td>
+                        <td class="border-b border-gray-200 py-2 text-right">${{ $product['price'] }}</td>
+                        <td class="border-b border-gray-200 py-2 text-right">${{ $product['quantity'] * $product['price'] }}</td>
+                    </tr>
+                @endforeach
             </tbody>
             <tfoot>
-                <tr>
+                {{-- <tr>
                     <td class="py-2 text-right font-semibold" colspan="3">Subtotal</td>
-                    <td class="py-2 text-right">$45.00</td>
-                </tr>
-                <tr>
-                    <td class="py-2 text-right font-semibold" colspan="3">Tax (5%)</td>
-                    <td class="py-2 text-right">$2.25</td>
-                </tr>
+                    <td class="py-2 text-right">{ sub total value here}</td>
+                </tr> --}}
+                {{-- <tr>
+                    <td class="py-2 text-right font-semibold" colspan="3">Tax ({tax percentage here})</td>
+                    <td class="py-2 text-right">{tax value here}</td>
+                </tr> --}}
                 <tr>
                     <td class="py-2 text-right font-semibold" colspan="3">Total</td>
-                    <td class="py-2 text-right">$47.25</td>
+                    <td class="py-2 text-right">{{ $total }}</td>
                 </tr>
             </tfoot>
         </table>
+        
 
         <div class="text-center">
             <p class="text-gray-600">Thank you for your business!</p>
