@@ -11,13 +11,12 @@ class TestService
 {
     public function test()
     {
-        
         $test = DB::table('users')
-            ->search('name', 'user')
+            ->search('name', '.com')
             ->get();
 
         $test = User::query()
-            ->search('name', 'user')
+            ->search(['name', "email"], 'em')
             ->get();
         
         dd('test', $test->toArray());
