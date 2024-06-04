@@ -6,6 +6,7 @@ use App\Http\Requests\CreateSaleRequest;
 use App\Models\Product;
 use App\Models\Sale;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class SaleController extends Controller
@@ -24,31 +25,27 @@ class SaleController extends Controller
         $validatedData = $request->validated();
 
         try {
-            \DB::beginTransaction();
+            DB::beginTransaction();
 
             $sale = Sale::create([
                 'seller_id' => auth()->id(),
                 'total_amount' => $validatedData["total_amount"],
+                'receipt_number' => "rn".rand(100000, 999999),
             ]);
 
-            $products = [
-                ['id' => 1, 'name' => 'Product 1'],
-                ['id' => 2, 'name' => 'Product 2'],
-                ['id' => 3, 'name' => 'Product 3'],
-                // Add more products as needed
-            ];
+            $products = $validatedData["products"];
             
-            $productIds = collect($products)->pluck('id');
-            
-            $products = Product::whereIn('id', $productIds)->get();
-            //  ->decrement('quantity', 1);
+            foreach ($products as $product) {
+                DB::table('products')->where('id', $product["product_id"])->decrement('stock', $product["quantity"]);
+            }
 
-            dd("test 1", $validatedData["products"]);
             $sale->products()->attach($validatedData["products"]);
 
-            \DB::commit();
+            DB::commit();
+            
+            return redirect()->route('sales.index')->with('success', 'Sale created successfully!');
         } catch (\Exception $e) {
-            \DB::rollBack();
+            DB::rollBack();
             throw $e;
         }
     }
