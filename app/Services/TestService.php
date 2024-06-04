@@ -11,6 +11,7 @@ class TestService
 {
     public function test()
     {
+        
         $test = DB::table('users')
             ->search('name', 'user')
             ->get();
@@ -18,9 +19,6 @@ class TestService
         $test = User::query()
             ->search('name', 'user')
             ->get();
-        // $test = User::query()
-        //     ->search('name', 'user')
-        //     ->get();
         
         dd('test', $test->toArray());
 
