@@ -65,10 +65,7 @@ const Store = createStore({
     checkout:
       (payment) =>
       ({ setState, getState }) => {
-        console.log('Checkout');
-        console.log('Payment:', payment);
-
-        // not implemented code is in CheckOutForm.jsx
+        setState({ items: [], total: 0 });
       },
   },
 });

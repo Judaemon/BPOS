@@ -30,7 +30,7 @@ class SaleController extends Controller
             $sale = Sale::create([
                 'seller_id' => auth()->id(),
                 'total_amount' => $validatedData["total_amount"],
-                'receipt_number' => "rn".rand(100000, 999999),
+                'receipt_number' => "RN".rand(100000, 999999),
             ]);
 
             $products = $validatedData["products"];
@@ -43,7 +43,8 @@ class SaleController extends Controller
 
             DB::commit();
             
-            return redirect()->route('sales.index')->with('success', 'Sale created successfully!');
+            // ->with() now working I cant return success message
+            return back();
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;

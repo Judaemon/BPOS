@@ -17,7 +17,7 @@ import {
   DrawerTrigger,
 } from '@/shadcn/ui/drawer';
 import { React, useEffect, useState } from 'react';
-import { router, useForm } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 
 import { Button } from '@/shadcn/ui/button';
 import { Input } from '@/shadcn/ui/input';
@@ -25,6 +25,7 @@ import { Label } from '@/shadcn/ui/label';
 import { cn } from '@/lib/utils';
 import { useCart } from '@/hooks/Cart';
 import { useMediaQuery } from '@/hooks/use-media-query';
+import { useToast } from '@/shadcn/ui/use-toast';
 
 export function CheckOutFormDrawerDialog() {
   const [open, setOpen] = useState(false);
@@ -43,7 +44,7 @@ export function CheckOutFormDrawerDialog() {
             <DialogTitle>{titleText}</DialogTitle>
             <DialogDescription>Fill out the form below to check out.</DialogDescription>
           </DialogHeader>
-          <CheckOutForm onSubmit={setOpen} />
+          <CheckOutForm onSubmit={() => setOpen(false)} />
         </DialogContent>
       </Dialog>
     );
@@ -59,7 +60,7 @@ export function CheckOutFormDrawerDialog() {
           <DrawerTitle>{titleText}</DrawerTitle>
           <DrawerDescription>Fill out the form below to check out.</DrawerDescription>
         </DrawerHeader>
-        <CheckOutForm className="px-4" onSubmit={setOpen} />
+        <CheckOutForm className="px-4" onSubmit={() => setOpen(false)} />
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>
@@ -72,16 +73,15 @@ export function CheckOutFormDrawerDialog() {
 
 const CheckOutForm = ({ className, onSubmit }) => {
   const [state, actions] = useCart();
+  const { toast } = useToast();
 
-  const { data, setData, post, processing, errors, transform } = useForm({
+  const { data, setData, post, processing, errors, setError } = useForm({
     payment: 0,
     change: 0,
-    products: state.items.map((item) => {
-      return {
-        ...item,
-        product_id: item.id,
-      };
-    }),
+    products: state.items.map((item) => ({
+      ...item,
+      product_id: item.id,
+    })),
     total_amount: state.total,
   });
 
@@ -89,37 +89,43 @@ const CheckOutForm = ({ className, onSubmit }) => {
     e.preventDefault();
     console.log('submit');
 
-    router.post('/sales', data);
-    // onSubmit(false);
+    post('/sales', {
+      onSuccess: (response) => {
+        toast({
+          title: 'Order created',
+          description: 'Order has been created successfully',
+        });
+
+        actions.checkout(data.payment);
+        // onSubmit();
+      },
+      onError: (error) => {
+        setError(error);
+      },
+    });
   };
 
   useEffect(() => {
     const change = data.payment - state.total;
-
-    if (data.payment > state.total) {
-      setData('change', change);
-    }
-
-    if (data.payment <= state.total) {
-      setData('change', 0);
-    }
+    setData('change', data.payment > state.total ? change : 0);
   }, [data.payment, state.total]);
 
   return (
     <form onSubmit={handleSubmit} className={cn('grid items-start gap-4', className)}>
       <div className="grid gap-2">
-        <Label htmlFor="quantity">Total</Label>
-        <Input value={state.total} type="number" id="quantity" disabled />
+        <Label htmlFor="total">Total</Label>
+        <Input value={state.total} type="number" id="total" disabled />
       </div>
 
       <div className="grid gap-2">
-        <Label htmlFor="quantity">Payment</Label>
+        <Label htmlFor="payment">Payment</Label>
         <Input
           value={data.payment}
           onChange={(e) => setData('payment', e.target.value)}
           type="number"
-          id="quantity"
+          id="payment"
         />
+        {errors.payment && <div>{errors.payment}</div>}
       </div>
 
       <div>Change: {data.change}</div>
