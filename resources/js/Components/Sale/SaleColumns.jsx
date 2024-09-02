@@ -41,11 +41,11 @@ export const SalesColumns = [
   },
   {
     accessorKey: 'receipt_number',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Receipt Number" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Receipt #" />,
   },
   {
-    accessorKey: 'seller_id',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Seller id" />,
+    accessorKey: 'seller.name',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Seller name" />,
   },
   {
     accessorKey: 'total_amount',
@@ -62,7 +62,7 @@ export const SalesColumns = [
   },
   {
     accessorKey: 'created_at',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Sale Date" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Sale date" />,
   },
   {
     id: 'actions',
