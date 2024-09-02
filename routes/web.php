@@ -29,7 +29,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::resource('/order', OrderController::class);
     Route::resource('/sales', SaleController::class);
-
+    
+    Route::get('/sales/{sale}/pdf', [SaleController::class, 'pdf'])->name('sales.pdf');
     // // Route::get('/orders', function () {
     // //     return Inertia::render('Orders');
     // })->name('orders');

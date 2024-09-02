@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Model;
 
 class Sale extends Model
@@ -25,5 +26,10 @@ class Sale extends Model
         return $this->belongsToMany(Product::class, 'sale_product', 'sale_id', 'product_id')
         ->withPivot('quantity', 'cost', 'item_total')
             ->withTimestamps();
+    }
+
+    public function getFormattedTotalAmountAttribute()
+    {
+        return Money::of($this->total_amount, 'PHP')->formatTo('en_PH');
     }
 }

@@ -5,19 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Receipt</title>
     <!-- Tailwind CSS -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
 
-    {{-- for testing only.  you  need  to compile yung css to make this worked on prod --}}
-    @viteReactRefresh
-    @vite(['resources/js/app.jsx'])  
-
-    {{-- put your compiled css here --}}
     <style>
         *,:before,:after {
             box-sizing: border-box;
             border-width: 0;
             border-style: solid;
-            border-color: #e5e7eb
+            border-color: #e5e7eb;
+            font-family: 'DejaVuSans', sans-serif;
         }
 
         :before,:after {
@@ -41,6 +37,17 @@
             line-height: inherit
         }
 
+        @font-face {
+            font-family: 'DejaVuSans';
+            src: public_path('/fonts/DejaVuSans.ttf') format('truetype');
+
+            /* src: url('/storage/fonts/DejaVuSans.ttf') format('truetype'); */
+        }
+    
+        .currency {
+            font-family: 'DejaVuSans', sans-serif;
+        }
+        
         hr {
             height: 0;
             color: inherit;
@@ -3488,7 +3495,7 @@
         <div class="mb-4">
             <h2 class="text-2xl font-semibold mb-2">Receipt</h2>
             <p class="text-gray-600">Date: {{ date('F j, Y') }}</p>
-            <p class="text-gray-600">Receipt #: {{ $receipt_number }}</p>
+            <p class="text-gray-600">Receipt #: {{ $sale->receipt_number }}</p>
         </div>
 
         {{-- <div class="mb-4">
@@ -3508,14 +3515,14 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($products as $product)
-                    <tr>
-                        <td class="border-b border-gray-200 py-2">{{ $product['name'] }}</td>
-                        <td class="border-b border-gray-200 py-2 text-right">{{ $product['quantity'] }}</td>
-                        <td class="border-b border-gray-200 py-2 text-right">${{ $product['price'] }}</td>
-                        <td class="border-b border-gray-200 py-2 text-right">${{ $product['quantity'] * $product['price'] }}</td>
-                    </tr>
-                @endforeach
+            @foreach ($sale->products as $product)
+                <tr>
+                    <td class="border-b border-gray-200 py-2">{{ $product->name }}</td>
+                    <td class="border-b border-gray-200 py-2 text-right">{{ $product->pivot->quantity }}</td>
+                    <td class="border-b border-gray-200 py-2 text-right currency">{{ $product->formatted_price }}</td>
+                    <td class="border-b border-gray-200 py-2 text-right currency">{{ $product->formatted_total }}</td>
+                </tr>
+            @endforeach
             </tbody>
             <tfoot>
                 {{-- <tr>
@@ -3528,7 +3535,7 @@
                 </tr> --}}
                 <tr>
                     <td class="py-2 text-right font-semibold" colspan="3">Total</td>
-                    <td class="py-2 text-right">{{ $total }}</td>
+                    <td class="py-2 text-right currency">{{ $sale->formatted_total_amount }}</td>
                 </tr>
             </tfoot>
         </table>

@@ -50,4 +50,19 @@ class SaleController extends Controller
             throw $e;
         }
     }
+    public function pdf(Sale $sale, Request $request)
+    {
+        // this is much better if joined with the products table
+        $sale = $sale->query()
+            ->with('products')
+            ->where('id', $sale->id)
+            ->first();
+        
+        if ($request->has('preview')) {
+            return view('pdf.receipt_sale', compact('sale'));
+        }
+
+        $pdf = \PDF::loadView('pdf.receipt_sale', compact('sale'));
+        return $pdf->download('receipt_sale.pdf');
+    }
 }
