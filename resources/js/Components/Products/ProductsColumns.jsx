@@ -75,8 +75,23 @@ export const columns = [
   {
     accessorKey: 'status',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+    cell: ({ row }) => {
+      const status = row.getValue('status');
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost">
+              <span className="sr-only">Open menu</span>
+              { status }
+            </Button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>Enable</DropdownMenuItem>
+            <DropdownMenuItem>Disable</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
     },
   },
   {
@@ -99,28 +114,27 @@ export const columns = [
               <DropdownMenuItem onClick={() => navigator.clipboard.writeText(product.id)}>
                 Copy ID
               </DropdownMenuItem>
+
               <DropdownMenuSeparator />
 
-              <ProductDialog
-                product={product}
-                setProduct={() => {
-                  console.log('set product');
-                }}
-                action="viewing"
-                dialogTrigger={<div className="pl-2">View</div>}
-              />
-              <ProductDialog
-                product={product}
-                setProduct={() => {
-                  console.log('set product');
-                }}
-                action="updating"
-                dialogTrigger={<div className="pl-2">Update</div>}
-              />
-              <DropdownMenuSeparator />
-
-              <DropdownMenuItem>Enable</DropdownMenuItem>
-              <DropdownMenuItem>Disable</DropdownMenuItem>
+              <div className="flex flex-col gap-2">
+                <ProductDialog
+                  product={product}
+                  setProduct={() => {
+                    console.log('set product');
+                  }}
+                  action="viewing"
+                  dialogTrigger={<div className="pl-2 text-left">View</div>}
+                />
+                <ProductDialog
+                  product={product}
+                  setProduct={() => {
+                    console.log('set product');
+                  }}
+                  action="updating"
+                  dialogTrigger={<div className="pl-2 text-left">Update</div>}
+                />
+              </div>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
