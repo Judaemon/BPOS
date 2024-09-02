@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Brick\Money\Money;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Sale extends Model
@@ -14,6 +15,10 @@ class Sale extends Model
         'seller_id',
         'total_amount',
         'receipt_number',
+    ];
+
+    protected $cast = [
+        'created_at' => 'datetime',
     ];
 
     public function seller()
@@ -31,5 +36,10 @@ class Sale extends Model
     public function getFormattedTotalAmountAttribute()
     {
         return Money::of($this->total_amount, 'PHP')->formatTo('en_PH');
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('F j, Y');
     }
 }

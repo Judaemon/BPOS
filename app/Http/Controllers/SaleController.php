@@ -14,7 +14,7 @@ class SaleController extends Controller
     public function index()
     {
         $sales = Sale::all();
-        
+
         return Inertia::render('Sales', [
             'sales' => $sales,
         ]);
@@ -39,30 +39,28 @@ class SaleController extends Controller
                 DB::table('products')->where('id', $product["product_id"])->decrement('stock', $product["quantity"]);
             }
 
-            $sale->products()->attach($validatedData["products"]);
+            $sale->products()->attach($products);
 
             DB::commit();
-            
-            // ->with() now working I cant return success message
-            return back();
+
+            return redirect()->back()->with('success', 'Sale created successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
-            throw $e;
+
+            return redirect()->back()->withErrors(['error' => 'Failed to create sale: ' . $e->getMessage()]);
         }
     }
+
     public function pdf(Sale $sale, Request $request)
     {
-        // this is much better if joined with the products table
-        $sale = $sale->query()
-            ->with('products')
-            ->where('id', $sale->id)
-            ->first();
-        
+        $sale = Sale::with('products')->findOrFail($sale->id);
+
         if ($request->has('preview')) {
             return view('pdf.receipt_sale', compact('sale'));
         }
 
         $pdf = \PDF::loadView('pdf.receipt_sale', compact('sale'));
-        return $pdf->download('receipt_sale.pdf');
+
+        return $pdf->download("receipt_sale_{$sale->receipt_number}.pdf");
     }
 }

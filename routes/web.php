@@ -24,6 +24,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('/product', ProductController::class);
+    Route::resource('/sales', SaleController::class);   // bad practice duplicate route hehe
 });
 
 Route::middleware(['auth'])->group(function () {
