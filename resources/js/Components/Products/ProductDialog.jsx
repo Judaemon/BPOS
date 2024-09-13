@@ -1,6 +1,3 @@
-import React from 'react';
-
-import { capitalizeFirstLetter } from '@/Helpers/StringHelper';
 import {
   Dialog,
   DialogContent,
@@ -9,12 +6,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/shadcn/ui/dialog';
-import { Input } from '@/shadcn/ui/input';
-import { Button } from '@/shadcn/ui/button';
-import { useToast } from '@/shadcn/ui/use-toast';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/shadcn/ui/select';
 import { router, useForm } from '@inertiajs/react';
-import { Label } from '@/shadcn/ui/label';
+
+import { Button } from '@/shadcn/ui/button';
+import { Input } from '@/shadcn/ui/input';
 import InputError from '../InputError';
+import { Label } from '@/shadcn/ui/label';
+import { PRODUCT_STATUS } from '@/data/status';
+import React from 'react';
+import { capitalizeFirstLetter } from '@/Helpers/StringHelper';
+import { useToast } from '@/shadcn/ui/use-toast';
 
 export default function ProductDialog({ product, setProduct, action, dialogTrigger }) {
   const { toast } = useToast();
@@ -159,6 +161,29 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
               placeholder="Product price"
             />
             <InputError className="mt-2" message={errors.status} />
+          </div>
+
+          <div>
+            <Label className="pl-1">Status</Label>
+            <Select
+              value={data.status}
+              onValueChange={(value) => setData('status', value)} // Update status on selection
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select a status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Status</SelectLabel>
+                  {PRODUCT_STATUS.map((status) => (
+                    <SelectItem key={status.value} value={status.value}>
+                      {status.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {errors.status && <InputError className="mt-2" message={errors.status} />} {/* Error handling */}
           </div>
 
           {(action === 'creating' || action === 'updating') && (

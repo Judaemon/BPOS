@@ -18,7 +18,6 @@ export const DISABLED = {
     value: 'disabled',
 };
 
-
 export const PRODUCT_STATUS = [
     AVAILABLE,
     OUT_OF_STOCK,
