@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Input } from '@/shadcn/ui/input';
+
 import { Button } from '@/shadcn/ui/button';
-import { PRODUCT_STATUS } from '@/data/status';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { DataTableViewOptions } from '../DataTable/data-table-view-options';
-import { DataTableFacetedFilter } from '../DataTable/data-table-faceted-filter';
+import { Input } from '@/shadcn/ui/input';
 
 export function SaleDataTableToolbar({ table }) {
   const isFiltered = table.getState().columnFilters.length > 0;
@@ -13,7 +12,7 @@ export function SaleDataTableToolbar({ table }) {
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filter product..."
+          placeholder="Search sale..."
           value={table.getColumn('id')?.getFilterValue() ?? ''}
           onChange={(event) => table.getColumn('id')?.setFilterValue(event.target.value)}
           className="h-8 w-[150px] lg:w-[250px]"

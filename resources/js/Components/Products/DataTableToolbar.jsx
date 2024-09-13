@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Input } from '@/shadcn/ui/input';
+
 import { Button } from '@/shadcn/ui/button';
-import { PRODUCT_STATUS } from '@/data/status';
 import { Cross2Icon } from '@radix-ui/react-icons';
-import { DataTableViewOptions } from '../DataTable/data-table-view-options';
 import { DataTableFacetedFilter } from '../DataTable/data-table-faceted-filter';
+import { DataTableViewOptions } from '../DataTable/data-table-view-options';
+import { Input } from '@/shadcn/ui/input';
+import { PRODUCT_STATUS } from '@/data/status';
 
 export function DataTableToolbar({ table }) {
   const isFiltered = table.getState().columnFilters.length > 0;
@@ -13,7 +14,7 @@ export function DataTableToolbar({ table }) {
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Filter product..."
+          placeholder="Search product..."
           value={table.getColumn('name')?.getFilterValue() ?? ''}
           onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
           className="h-8 w-[150px] lg:w-[250px]"
