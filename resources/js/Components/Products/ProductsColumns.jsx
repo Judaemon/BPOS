@@ -1,5 +1,3 @@
-import { Button } from '@/shadcn/ui/button';
-import { Checkbox } from '@/shadcn/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,8 +6,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shadcn/ui/dropdown-menu';
-import { MoreHorizontal } from 'lucide-react';
+
+import { Button } from '@/shadcn/ui/button';
+import { Checkbox } from '@/shadcn/ui/checkbox';
 import { DataTableColumnHeader } from '../DataTable/data-table-column-header';
+import { MoreHorizontal } from 'lucide-react';
+import { PRODUCT_STATUS } from '@/data/status';
 import ProductDialog from './ProductDialog';
 
 export const columns = [
@@ -76,22 +78,11 @@ export const columns = [
     accessorKey: 'status',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row }) => {
-      const status = row.getValue('status');
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost">
-              <span className="sr-only">Open menu</span>
-              { status }
-            </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>Enable</DropdownMenuItem>
-            <DropdownMenuItem>Disable</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      const statusValue = row.getValue('status');
+  
+      const status = PRODUCT_STATUS.find((item) => item.value === statusValue);
+  
+      return <div className="font-medium">{status ? status.label : statusValue}</div>;
     },
   },
   {
