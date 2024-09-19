@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('seller_id')->constrained('users');
             $table->decimal('total_amount', 8, 2);
-            $table->string('receipt_number')->unique();
+            $table->string('receipt_number')->unique()->nullable();
+            $table->string('payment_method')->required();
+            $table->string('account_number')->required()->nullable();
 
             $table->timestamps();
         });

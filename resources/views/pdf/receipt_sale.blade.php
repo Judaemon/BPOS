@@ -3495,6 +3495,7 @@
         <div class="mb-4">
             <h2 class="text-2xl font-semibold mb-2">Receipt</h2>
             <p class="text-gray-600">Date: {{ date('F j, Y') }}</p>
+            <p class="text-gray-600">Mode of Payment: {{ $sale->payment_method }}</p>
             <p class="text-gray-600">Receipt #: {{ $sale->receipt_number }}</p>
         </div>
 

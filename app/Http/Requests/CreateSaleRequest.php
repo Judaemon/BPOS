@@ -23,7 +23,24 @@ class CreateSaleRequest extends FormRequest
     {
         return [
             'total_amount' => 'required|numeric|min:1',
-            'payment' => 'required|numeric|min:1|gte:total_amount',
+
+            'payment_method' => 'required|string|in:gcash,cash',
+            'account_number' => 'required_if:payment_method,gcash|nullable|string',
+            'payment' => [
+                'nullable',
+                'numeric',
+                'required_if:payment_method,cash',
+                function ($attribute, $value, $fail) {
+                    if (request('payment_method') === 'cash' && $value <= 0) {
+                        $fail('The payment must be greater than 0 for cash payments.');
+                    }
+                },
+                function ($attribute, $value, $fail) {
+                    if (request('payment_method') === 'cash' && $value < request('total_amount')) {
+                        $fail('The payment must be greater than or equal to the total amount for cash payments.');
+                    }
+                },
+            ],
 
             'products' => 'required|array',
             'products.*.product_id' => 'required|exists:products,id',
@@ -36,7 +53,7 @@ class CreateSaleRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'payment.gte' => 'The payment should be greater than or equal to the total amount.',           
+            'payment.gte' => 'The payment should be greater than or equal to the total amount.',
         ];
     }
 }

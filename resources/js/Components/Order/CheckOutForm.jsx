@@ -16,14 +16,15 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/shadcn/ui/drawer';
+import { RadioGroup, RadioGroupItem } from '@/shadcn/ui/radio-group';
 import { React, useEffect, useState } from 'react';
-import { useForm } from '@inertiajs/react';
 
 import { Button } from '@/shadcn/ui/button';
 import { Input } from '@/shadcn/ui/input';
 import { Label } from '@/shadcn/ui/label';
 import { cn } from '@/lib/utils';
 import { useCart } from '@/hooks/Cart';
+import { useForm } from '@inertiajs/react';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { useToast } from '@/shadcn/ui/use-toast';
 
@@ -83,6 +84,8 @@ const CheckOutForm = ({ className, onSubmit }) => {
       product_id: item.id,
     })),
     total_amount: state.total,
+    payment_method: 'cash',
+    account_number: '',
   });
 
   const handleSubmit = (e) => {
@@ -105,6 +108,17 @@ const CheckOutForm = ({ className, onSubmit }) => {
     });
   };
 
+  const handlePaymentMethodChange = (paymentMethod) => {
+    if (paymentMethod === 'gcash') {
+      setData(data => ({ ...data, payment: 0, account_number: ''}));
+    } else if (paymentMethod === 'cash') {
+      setData(data => ({ ...data, payment: 0, account_number: ''}));
+    }
+
+    setData(data => ({ ...data, payment_method: paymentMethod}));
+  };
+  
+
   useEffect(() => {
     const change = data.payment - state.total;
     setData('change', data.payment > state.total ? change : 0);
@@ -118,15 +132,46 @@ const CheckOutForm = ({ className, onSubmit }) => {
       </div>
 
       <div className="grid gap-2">
-        <Label htmlFor="payment">Payment</Label>
-        <Input
-          value={data.payment}
-          onChange={(e) => setData('payment', e.target.value)}
-          type="number"
-          id="payment"
-        />
-        {errors.payment && <div>{errors.payment}</div>}
+        <Label htmlFor="payment">Payment method</Label>
+        <RadioGroup 
+          onValueChange={(value) => handlePaymentMethodChange(value)}
+          value={data.payment_method}          
+        >
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="cash" id="r1" />
+            <Label htmlFor="r1">Cash</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="gcash" id="r2" />
+            <Label htmlFor="r2">G Cash</Label>
+          </div>
+        </RadioGroup>
       </div>
+
+      {data.payment_method === 'gcash' && (
+        <div className="grid gap-2">
+          <Label htmlFor="account_number">GCash number</Label>
+          <Input
+            value={data.gcash}
+            onChange={(e) => setData('account_number', e.target.value)}
+            id="account_number"
+          />
+          {errors.account_number && <div>{errors.account_number}</div>}
+        </div>
+      )}
+
+      {data.payment_method === 'cash' && (
+        <div className="grid gap-2">
+          <Label htmlFor="payment">Payment</Label>
+          <Input
+            value={data.payment}
+            onChange={(e) => setData('payment', e.target.value)}
+            type="number"
+            id="payment"
+          />
+          {errors.payment && <div>{errors.payment}</div>}
+        </div>
+      )}
 
       <div>Change: {data.change}</div>
       <Button type="submit">Finalize order</Button>
