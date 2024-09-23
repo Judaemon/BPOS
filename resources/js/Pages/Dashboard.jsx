@@ -1,6 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Button } from '@/shadcn/ui/button';
 import { SalesChart } from '../Components/Sale/Charts/SalesChart';
 import { SalesPredictionChart } from '@/Components/Sale/Charts/SalesPredictionChart';
 import { TrendingUp } from 'lucide-react';
@@ -24,12 +25,12 @@ export default function Dashboard({ auth, chartData }) {
             <div className="text-gray-900 dark:text-gray-100">You're logged in!</div>
 
             {hasRole('admin') && (
-              <div>
+              <div className="my-2">
                 <Link
                   href={route('register')}
                   className="rounded-md text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                 >
-                  Add new user!
+                  <Button>Add new user!</Button>
                 </Link>
               </div>
             )}
@@ -50,14 +51,7 @@ export default function Dashboard({ auth, chartData }) {
                   }
                 />
 
-                <SalesPredictionChart
-                  data={chartData.predictions}
-                  footerContent={
-                    <div>
-                      
-                    </div>
-                  }
-                />
+                <SalesPredictionChart data={chartData.predictions} footerContent={<div></div>} />
               </div>
             )}
           </div>

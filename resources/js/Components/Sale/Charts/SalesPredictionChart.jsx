@@ -30,7 +30,7 @@ export function SalesPredictionChart({ data = [] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Sales Summary</CardTitle>
+        <CardTitle>Predicted Sales Summary</CardTitle>
         <CardDescription>Oct - Dec 2024</CardDescription>
       </CardHeader>
       <CardContent>
