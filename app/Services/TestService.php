@@ -142,11 +142,11 @@ class TestService
         $predictions = [];
         $lastSales = $report->last()->total_sales ?? 0;
 
-        for ($i = 1; $i <= 3; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             $nextMonth = now()->addMonths($i)->format('Y-m');
             $predictedSales = max(0, $lastSales + $averageDifference * $i);
-            $predictedQuantity = round($predictedSales / 20, 2);
-            $predictedRevenue = round($predictedSales * (1 + ($averagePercentageChange / 100)), 2);
+            $predictedQuantity = round($predictedSales / 1000, 2);
+            $predictedRevenue = round($predictedSales * (($averagePercentageChange / 100)), 2);
 
             // Add the human-readable month for the predictions
             $predictions[] = [

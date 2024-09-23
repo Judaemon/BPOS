@@ -24,18 +24,18 @@ const chartConfig = {
   },
 };
 
-export function SalesChart(data = []) {
-  console.log('test', data.data);
+export function SalesPredictionChart({ data = [] }) {
+  console.log('test', data);
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Sales Summary</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardDescription>Oct - Dec 2024</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[200px] w-full">
-          <BarChart accessibilityLayer data={data.data}>
+          <BarChart accessibilityLayer data={data}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="month"
@@ -45,18 +45,18 @@ export function SalesChart(data = []) {
               tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip content={<ChartTooltipContent />} />
-            <Bar dataKey="total_sales" fill="var(--color-desktop)" radius={4} />
-            <Bar dataKey="total_quantity" fill="var(--color-mobile)" radius={4} />
-            <Bar dataKey="total_revenue" fill="var(--color-mobile)" radius={4} />
+            <Bar dataKey="predicted_sales" fill="var(--color-desktop)" radius={4} />
+            <Bar dataKey="predicted_quantity" fill="var(--color-mobile)" radius={4} />
+            <Bar dataKey="predicted_revenue" fill="var(--color-mobile)" radius={4} />
           </BarChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+      <div className="flex gap-2 font-medium leading-none">
+          Prediction <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Showing predicted total sales from October to December
         </div>
       </CardFooter>
     </Card>
