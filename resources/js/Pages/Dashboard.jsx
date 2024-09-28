@@ -22,18 +22,6 @@ export default function Dashboard({ auth, chartData }) {
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="bg-white p-6 grid gap-2 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div className="text-gray-900 dark:text-gray-100">You're logged in!</div>
-
-            {hasRole('admin') && (
-              <div className="my-2">
-                <Link
-                  href={route('register')}
-                  className="rounded-md text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                >
-                  <Button>Add new user!</Button>
-                </Link>
-              </div>
-            )}
 
             {hasRole('admin') && (
               <div className="grid grid-cols-2 gap-4 text-black">

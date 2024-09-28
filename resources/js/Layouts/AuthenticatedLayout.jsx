@@ -1,12 +1,11 @@
-import { useState } from 'react';
+import ApplicationLogo from '@/Components/ApplicationLogo';
+import Dropdown from '@/Components/Dropdown';
 import { Link } from '@inertiajs/react';
 import NavLink from '@/Components/NavLink';
-import { hasRole } from '@/lib/permissions';
-import Dropdown from '@/Components/Dropdown';
-import { Toaster } from '@/shadcn/ui/toaster';
-import ApplicationLogo from '@/Components/ApplicationLogo';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Button } from '@/shadcn/ui/button';
+import { Toaster } from '@/shadcn/ui/toaster';
+import { hasRole } from '@/lib/permissions';
+import { useState } from 'react';
 
 export default function Authenticated({ user, header, children }) {
   const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
@@ -37,6 +36,12 @@ export default function Authenticated({ user, header, children }) {
                 {hasRole('admin') && (
                   <NavLink href={route('sales.index')} active={route().current('sales.index')}>
                     Sales
+                  </NavLink>
+                )}
+
+                {hasRole('admin') && (
+                  <NavLink href={route('register')} active={route().current('register')}>
+                    Add new user
                   </NavLink>
                 )}
 
