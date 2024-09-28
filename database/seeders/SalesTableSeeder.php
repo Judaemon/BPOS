@@ -15,8 +15,8 @@ class SalesTableSeeder extends Seeder
      */
     public function run()
     {
-        $months = 12; // Number of months of sales history
-        $salesPerMonth = 50; // Number of sales per month
+        $months = 5; // Number of months of sales history
+        $salesPerMonth = 20; // Number of sales per month
 
         // Fetch all products and users to associate with sales
         $products = Product::all();

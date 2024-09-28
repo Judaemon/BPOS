@@ -27,8 +27,11 @@ class OrderController extends Controller
     {
         $request->validated();
 
+        $imagePath = $request->file('image')->store('products', 'public');
+
         Product::create([
             'name' => $request->name,
+            'image' => $imagePath,
             'description' => $request->description,
             'cost' => $request->cost,
             'price' => $request->price,
@@ -43,8 +46,11 @@ class OrderController extends Controller
     {
         $request->validated();
 
+        $imagePath = $request->file('image')->store('products', 'public');
+
         $product->update([
             'name' => $request->name,
+            'image' => $imagePath,
             'description' => $request->description,
             'cost' => $request->cost,
             'price' => $request->price,

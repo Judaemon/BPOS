@@ -21,15 +21,18 @@ class ProductController extends Controller
 
     public function store(ProductStoreRequest $request)
     {
-        $request->validated();
+        $validatedData = $request->validated();
+
+        $imagePath = $request->file('image')->store('products', 'public');
 
         Product::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'cost' => $request->cost,
-            'price' => $request->price,
-            'stock' => $request->stock,
-            'status' => $request->status,
+            'name' => $validatedData['name'],
+            'image' => $imagePath,
+            'description' => $validatedData['description'],
+            'cost' => $validatedData['cost'],
+            'price' => $validatedData['price'],
+            'stock' => $validatedData['stock'],
+            'status' => $validatedData['status'],
         ]);
 
         return to_route('product.index');
@@ -37,15 +40,31 @@ class ProductController extends Controller
 
     public function update(ProductUpdateRequest $request, Product $product)
     {
-        $request->validated();
+        $validatedData = $request->validated();
+
+        if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            if ($product->image && file_exists(public_path('images/' . $product->image))) {
+                unlink(filename: public_path('images/' . $product->image));
+            }
+    
+            // Save the new image
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $validatedData['image'] = $imageName;
+        } else {
+            // Keep the existing image if no new image is uploaded
+            $validatedData['image'] = $product->image;
+        }
 
         $product->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'cost' => $request->cost,
-            'price' => $request->price,
-            'stock' => $request->stock,
-            'status' => $request->status,
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'],
+            'cost' => $validatedData['cost'],
+            'price' => $validatedData['price'],
+            'stock' => $validatedData['stock'],
+            'status' => $validatedData['status'],
+            'image' => $validatedData['image'],
         ]);
 
         return to_route('product.index');

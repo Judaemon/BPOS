@@ -24,6 +24,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
   const { data, setData, post, processing, errors, setError, clearErrors, reset } = useForm({
     id: product.id || null,
     name: product.name || '',
+    image: product.image || null,
     description: product.description || '',
     cost: product.cost || 0,
     price: product.price || 0,
@@ -32,7 +33,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
   });
 
   const updateProduct = async () => {
-    router.patch(`/product/${product.id}`, data, {
+    post(`/product/${data.id}`, data, {
       preserveScroll: true,
       onSuccess: () => {
         toast({
@@ -78,12 +79,11 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
 
     if (action === 'creating') {
       createProduct();
-    }else if (action === 'updating') {
+    } else if (action === 'updating') {
       updateProduct();
     }
   }
 
-  console.log(product, action);
   return (
     <Dialog onOpenChange={() => reset()}>
       <DialogTrigger>{dialogTrigger}</DialogTrigger>
@@ -103,6 +103,36 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
               placeholder="Product name"
             />
             <InputError className="mt-2" message={errors.name} />
+          </div>
+
+          <div>
+            <Label className="pl-1">Image</Label>
+            <img
+              id="preview"
+              src=""
+              alt="Image Preview"
+              style={{ maxWidth: '500px', display: 'none' }}
+            />
+            <Input
+              className="m-1"
+              type="file"
+              onChange={(e) => {
+                const file = e.target.files[0];
+
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onload = function (event) {
+                    const preview = document.getElementById('preview');
+                    preview.src = event.target.result;
+                    preview.style.display = 'block';
+                  };
+                  reader.readAsDataURL(file);
+                }
+                setData('image', e.target.files[0]);
+              }}
+              placeholder="Product image"
+            />
+            <InputError className="mt-2" message={errors.image} />
           </div>
 
           <div>
@@ -154,17 +184,6 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
 
           <div>
             <Label className="pl-1">Status</Label>
-            <Input
-              className="m-1"
-              value={data.status}
-              onChange={(e) => setData('status', e.target.value)}
-              placeholder="Product price"
-            />
-            <InputError className="mt-2" message={errors.status} />
-          </div>
-
-          <div>
-            <Label className="pl-1">Status</Label>
             <Select
               value={data.status}
               onValueChange={(value) => setData('status', value)} // Update status on selection
@@ -183,7 +202,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
                 </SelectGroup>
               </SelectContent>
             </Select>
-            {errors.status && <InputError className="mt-2" message={errors.status} />} {/* Error handling */}
+            {errors.status && <InputError className="mt-2" message={errors.status} />}
           </div>
 
           {(action === 'creating' || action === 'updating') && (

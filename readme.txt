@@ -4,5 +4,6 @@ docker exec -it BPOS bash
 http://localhost:100
 
 
+php artisan migrate
 
 php artisan migrate:fresh --seed

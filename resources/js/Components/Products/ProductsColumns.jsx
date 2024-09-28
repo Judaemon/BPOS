@@ -6,11 +6,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shadcn/ui/dropdown-menu';
+import { Image, MoreHorizontal } from 'lucide-react';
 
 import { Button } from '@/shadcn/ui/button';
 import { Checkbox } from '@/shadcn/ui/checkbox';
 import { DataTableColumnHeader } from '../DataTable/data-table-column-header';
-import { MoreHorizontal } from 'lucide-react';
 import { PRODUCT_STATUS } from '@/data/status';
 import ProductDialog from './ProductDialog';
 
@@ -43,6 +43,25 @@ export const columns = [
   {
     accessorKey: 'name',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
+  },
+  {
+    accessorKey: 'image',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="image" />,
+    cell: ({ row }) => {
+      const image = row.getValue('image');
+
+      if (!image) {
+        console.log('no image');
+        
+        return (
+          <div className="flex gap-1">
+            <Image className="h-4 w-4" /> No image
+          </div>
+        );
+      }
+
+      return <img src={`/storage/${image}`} alt="product" className="w-8 h-8 rounded-full" />;
+    }
   },
   {
     accessorKey: 'stock',

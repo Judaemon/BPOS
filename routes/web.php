@@ -31,6 +31,8 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('/product', ProductController::class);
+    Route::post('product/{product}', [OrderController::class, 'update'])->name('product.update');
+
     Route::resource('/sales', SaleController::class);   // bad practice duplicate route hehe
 });
 
@@ -53,6 +55,7 @@ Route::middleware('auth')->group(function () {
 // create route group for test
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/test', [TestController::class, 'test']);
+    Route::get('/test-page', [TestController::class, 'testPage']);
     Route::get('/test-mail', [TestController::class, 'testMail']);
     Route::get('/test-pdf', [TestController::class, 'testPdf']);
 });
