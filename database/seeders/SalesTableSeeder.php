@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\User;
 use DB;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 use Str;
 
 class SalesTableSeeder extends Seeder
@@ -28,14 +29,15 @@ class SalesTableSeeder extends Seeder
             for ($j = 0; $j < $salesPerMonth; $j++) {
                 $seller = $users->random(); // Randomly select a seller
                 $totalAmount = random_int(100, 5000); // Random total amount
-                $paymentMethod = 'Cash'; // Adjust this as needed
+                $paymentMethod = Arr::random(['cash', 'gcash']);
                 $accountNumber = Str::random(10); // Random account number or set as needed
 
                 // Create the sale
                 $saleId = DB::table('sales')->insertGetId([
                     'seller_id' => $seller->id,
                     'total_amount' => $totalAmount,
-                    'receipt_number' => Str::random(10),
+                    'receipt_number' => "RN".rand(100000, 999999),
+                    'customer_name' => "Customer ".($j + 1),
                     'payment_method' => $paymentMethod,
                     'account_number' => $accountNumber,
                     'created_at' => $date,

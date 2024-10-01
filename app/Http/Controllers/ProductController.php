@@ -24,6 +24,7 @@ class ProductController extends Controller
         $validatedData = $request->validated();
 
         $imagePath = $request->file('image')->store('products', 'public');
+        $imagePath = "storage/$imagePath";
 
         Product::create([
             'name' => $validatedData['name'],
@@ -40,31 +41,17 @@ class ProductController extends Controller
 
     public function update(ProductUpdateRequest $request, Product $product)
     {
-        $validatedData = $request->validated();
-
-        if ($request->hasFile('image')) {
-            // Delete the old image if it exists
-            if ($product->image && file_exists(public_path('images/' . $product->image))) {
-                unlink(filename: public_path('images/' . $product->image));
-            }
-    
-            // Save the new image
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-            $validatedData['image'] = $imageName;
-        } else {
-            // Keep the existing image if no new image is uploaded
-            $validatedData['image'] = $product->image;
-        }
+        $imagePath = $request->file('image')->store('products', 'public');
+        $imagePath = "storage/$imagePath";
 
         $product->update([
-            'name' => $validatedData['name'],
-            'description' => $validatedData['description'],
-            'cost' => $validatedData['cost'],
-            'price' => $validatedData['price'],
-            'stock' => $validatedData['stock'],
-            'status' => $validatedData['status'],
-            'image' => $validatedData['image'],
+            'name' => $request->name,
+            'image' => $imagePath,
+            'description' => $request->description,
+            'cost' => $request->cost,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'status' => $request->status,
         ]);
 
         return to_route('product.index');

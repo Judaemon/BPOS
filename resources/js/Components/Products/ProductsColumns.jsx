@@ -51,8 +51,6 @@ export const columns = [
       const image = row.getValue('image');
 
       if (!image) {
-        console.log('no image');
-        
         return (
           <div className="flex gap-1">
             <Image className="h-4 w-4" /> No image
@@ -60,7 +58,7 @@ export const columns = [
         );
       }
 
-      return <img src={`/storage/${image}`} alt="product" className="w-8 h-8 rounded-full" />;
+      return <img src={`${image}`} alt="product" className="w-8 h-8 rounded-full" />;
     }
   },
   {

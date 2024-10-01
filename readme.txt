@@ -6,4 +6,6 @@ http://localhost:100
 
 php artisan migrate
 
+php artisan db:seed --class=ProductSeeder
+
 php artisan migrate:fresh --seed

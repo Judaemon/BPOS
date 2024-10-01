@@ -15,6 +15,7 @@ class Sale extends Model
         'seller_id',
         'total_amount',
         'receipt_number',
+        'customer_name',
         'payment_method',
         'account_number'
     ];

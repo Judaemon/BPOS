@@ -31,7 +31,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('/product', ProductController::class);
-    Route::post('product/{product}', [OrderController::class, 'update'])->name('product.update');
+    Route::post('product/{product}', [ProductController::class, 'update'])->name('product.update');
 
     Route::resource('/sales', SaleController::class);   // bad practice duplicate route hehe
 });

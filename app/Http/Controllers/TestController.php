@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Mail\HelloWorld;
 use App\Services\TestService;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -51,5 +52,12 @@ class TestController extends Controller
     {
         dispatch(new \App\Jobs\SampleJob('hello world'));
         return "Job dispatched successfully!";
+    }
+
+    public function testPage()
+    {
+        return Inertia::render('Test/Test', [
+            // 
+        ]);
     }
 }
