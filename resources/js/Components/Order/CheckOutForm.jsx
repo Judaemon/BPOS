@@ -83,6 +83,7 @@ const CheckOutForm = ({ className, onSubmit }) => {
       ...item,
       product_id: item.id,
     })),
+    customer_name: '',
     total_amount: state.total,
     payment_method: 'cash',
     account_number: '',
@@ -172,6 +173,17 @@ const CheckOutForm = ({ className, onSubmit }) => {
           {errors.payment && <div>{errors.payment}</div>}
         </div>
       )}
+
+      <div className="grid gap-2">
+        <Label htmlFor="customer">Customer Name</Label>
+        <Input
+          value={data.customer_name}
+          onChange={(e) => setData('customer_name', e.target.value)}
+          id="customer_name"
+        />
+        {errors.customer_name && <div>{errors.customer_name}</div>}
+      </div>
+
 
       <div>Change: {data.change}</div>
       <Button type="submit">Finalize order</Button>

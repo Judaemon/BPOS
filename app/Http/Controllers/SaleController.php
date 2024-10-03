@@ -33,6 +33,7 @@ class SaleController extends Controller
                 'seller_id' => auth()->id(),
                 'total_amount' => $validatedData["total_amount"],
                 'receipt_number' => "RN".rand(100000, 999999),
+                'customer_name' => $validatedData["customer_name"],
                 'payment_method' => $validatedData["payment_method"],
                 'account_number' => $validatedData["account_number"] ?? null,
             ]);

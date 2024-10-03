@@ -3493,19 +3493,18 @@
         </div>
 
         <div class="mb-4">
-            <h2 class="text-2xl font-semibold mb-2">Receipt</h2>
-            <p class="text-gray-600">Date: {{ date('F j, Y') }}</p>
-            <p class="text-gray-600">Mode of Payment: {{ $sale->payment_method }}</p>
+            <h2 class="text-xl font-bold mb-2">Receipt Information</h2>
             <p class="text-gray-600">Receipt #: {{ $sale->receipt_number }}</p>
+            <p class="text-gray-600">Date: {{ date('F j, Y') }}</p>
+        </div>
+        
+        <div class="mb-4">
+            <h3 class="text-xl font-bold mb-2">Billing Information</h3>
+            <p class="text-gray-600">Customer Name: {{ $sale->customer_name }}</p>
+            <p class="text-gray-600">Mode of Payment: {{ $sale->payment_method }}</p>
         </div>
 
-        {{-- <div class="mb-4">
-            <h3 class="text-xl font-semibold mb-2">Billing Information</h3>
-            <p class="text-gray-600">Customer Name</p>
-            <p class="text-gray-600">customer@example.com</p>
-            <p class="text-gray-600">5678 Another St, City, State, 67890</p>
-        </div> --}}
-
+        <h2 class="text-xl font-bold mb-2">Sale Information</h2>
         <table class="w-full mb-6">
             <thead>
                 <tr>

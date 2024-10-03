@@ -24,6 +24,7 @@ class CreateSaleRequest extends FormRequest
         return [
             'total_amount' => 'required|numeric|min:1',
 
+            'customer_name' => 'required|string',
             'payment_method' => 'required|string|in:gcash,cash',
             'account_number' => 'required_if:payment_method,gcash|nullable|string',
             'payment' => [
