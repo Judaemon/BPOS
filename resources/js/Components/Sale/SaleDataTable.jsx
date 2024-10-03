@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { DataTablePagination } from '../DataTable/data-table-pagination';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shadcn/ui/table';
 import {
   flexRender,
@@ -11,7 +9,10 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+
+import { DataTablePagination } from '../DataTable/data-table-pagination';
 import { SaleDataTableToolbar } from './SaleDataTableToolbar';
+import { useState } from 'react';
 
 export function SaleDataTable({ columns, data }) {
   const [sorting, setSorting] = useState([]);

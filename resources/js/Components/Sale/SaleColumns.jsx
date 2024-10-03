@@ -1,5 +1,3 @@
-import { Button } from '@/shadcn/ui/button';
-import { Checkbox } from '@/shadcn/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,9 +6,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shadcn/ui/dropdown-menu';
-import { MoreHorizontal } from 'lucide-react';
+
+import { Button } from '@/shadcn/ui/button';
+import { Checkbox } from '@/shadcn/ui/checkbox';
 import { DataTableColumnHeader } from '../DataTable/data-table-column-header';
-import ProductDialog from '../Products/ProductDialog';
+import { MoreHorizontal } from 'lucide-react';
 import PdfDownloader from '../Pdf/DownloadPdf';
 
 export const SalesColumns = [
@@ -48,6 +48,10 @@ export const SalesColumns = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Seller name" />,
   },
   {
+    accessorKey: 'customer_name',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Customer name" />,
+  },
+  {
     accessorKey: 'total_amount',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Total amount" />,
     cell: ({ row }) => {
@@ -71,7 +75,7 @@ export const SalesColumns = [
       const product = row.original;
       const downloadUrl = window.location.origin + '/sales/' + product.id + '/pdf';
       console.log(downloadUrl);
-      
+
       return (
         <div>
           <DropdownMenu>
@@ -91,9 +95,7 @@ export const SalesColumns = [
               <DropdownMenuSeparator />
 
               <DropdownMenuItem>
-                <PdfDownloader url={downloadUrl} children={
-                  <span>Download PDF</span>
-                } />
+                <PdfDownloader url={downloadUrl} children={<span>Download PDF</span>} />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
