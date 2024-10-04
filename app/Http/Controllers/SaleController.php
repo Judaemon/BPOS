@@ -14,7 +14,7 @@ class SaleController extends Controller
     public function index()
     {
         $sales = Sale::query()
-            ->with('seller')
+            ->with(['seller', 'products'])
             ->get();
 
         return Inertia::render('Sales', [

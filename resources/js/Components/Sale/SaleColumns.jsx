@@ -69,12 +69,30 @@ export const SalesColumns = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Sale date" />,
   },
   {
+    accessorKey: 'products',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Products" />,
+    hide: true,
+    cell: ({ row }) => {
+      const products = row.getValue('products');
+      const id = row.getValue('id');
+    
+      return (
+        <div>
+          {products.map((product) => (
+            <div key={`${id}_${product.id}`} className="text-sm">
+              {product.name}
+            </div>
+          ))}
+        </div>
+      );
+    }
+  },
+  {
     id: 'actions',
     header: () => <div className="text-le">Actions</div>,
     cell: ({ row }) => {
       const product = row.original;
       const downloadUrl = window.location.origin + '/sales/' + product.id + '/pdf';
-      console.log(downloadUrl);
 
       return (
         <div>

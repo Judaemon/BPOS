@@ -18,7 +18,9 @@ export function SaleDataTable({ columns, data }) {
   const [sorting, setSorting] = useState([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnFilters, setColumnFilters] = useState([]);
-  const [columnVisibility, setColumnVisibility] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState({
+    products:false
+  });
 
   const table = useReactTable({
     data,
