@@ -4,8 +4,8 @@ import { CheckOutFormDrawerDialog } from '@/Components/Order/CheckOutForm';
 import { Head } from '@inertiajs/react';
 import { OrderColumn } from '@/Components/Order/OrderColumns';
 import { OrderDataTable } from '@/Components/Order/OrderDataTable';
-import { useCart } from '@/hooks/Cart';
 import { memo } from 'react';
+import { useCart } from '@/hooks/Cart';
 
 export default function Products({ auth, products }) {
   return (

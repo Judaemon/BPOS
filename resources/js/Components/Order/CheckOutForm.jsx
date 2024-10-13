@@ -22,6 +22,7 @@ import { React, useEffect, useState } from 'react';
 import { Button } from '@/shadcn/ui/button';
 import { Input } from '@/shadcn/ui/input';
 import { Label } from '@/shadcn/ui/label';
+import { ToastAction } from '@/shadcn/ui/toast';
 import { cn } from '@/lib/utils';
 import { useCart } from '@/hooks/Cart';
 import { useForm } from '@inertiajs/react';
@@ -98,6 +99,14 @@ const CheckOutForm = ({ className, onSubmit }) => {
         toast({
           title: 'Order created',
           description: 'Order has been created successfully',
+          action: (
+            <ToastAction className="bg-primary text-white hover:text-black" altText="Download receipt">
+              <a href={`/sales/${response.props.sale.id}/pdf`} target="_blank" rel="noreferrer">
+                Download receipt
+              </a>
+            </ToastAction>
+          ),
+          duration: 1000 * 10, // 10 seconds
         });
 
         actions.checkout(data.payment);
@@ -111,14 +120,13 @@ const CheckOutForm = ({ className, onSubmit }) => {
 
   const handlePaymentMethodChange = (paymentMethod) => {
     if (paymentMethod === 'gcash') {
-      setData(data => ({ ...data, payment: 0, account_number: ''}));
+      setData((data) => ({ ...data, payment: 0, account_number: '' }));
     } else if (paymentMethod === 'cash') {
-      setData(data => ({ ...data, payment: 0, account_number: ''}));
+      setData((data) => ({ ...data, payment: 0, account_number: '' }));
     }
 
-    setData(data => ({ ...data, payment_method: paymentMethod}));
+    setData((data) => ({ ...data, payment_method: paymentMethod }));
   };
-  
 
   useEffect(() => {
     const change = data.payment - state.total;
@@ -134,9 +142,9 @@ const CheckOutForm = ({ className, onSubmit }) => {
 
       <div className="grid gap-2">
         <Label htmlFor="payment">Payment method</Label>
-        <RadioGroup 
+        <RadioGroup
           onValueChange={(value) => handlePaymentMethodChange(value)}
-          value={data.payment_method}          
+          value={data.payment_method}
         >
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="cash" id="r1" />
@@ -183,7 +191,6 @@ const CheckOutForm = ({ className, onSubmit }) => {
         />
         {errors.customer_name && <div>{errors.customer_name}</div>}
       </div>
-
 
       <div>Change: {data.change}</div>
       <Button type="submit">Finalize order</Button>

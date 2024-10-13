@@ -18,8 +18,13 @@ class OrderController extends Controller
             ->get()
         );
 
+        $sale = session('sale');
+        $message = session('message');
+
         return Inertia::render('Orders', [
             'products' => $products,
+            'sale' => $sale,
+            'message' => $message,
         ]);
     }
 

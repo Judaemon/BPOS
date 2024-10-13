@@ -47,8 +47,11 @@ class SaleController extends Controller
             $sale->products()->attach($products);
 
             DB::commit();
-
-            return redirect()->back()->with('success', 'Sale created successfully.');
+            
+            return redirect()->back()->with([
+                'sale' => $sale,
+                'message' => 'Sale created successfully',
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
 
