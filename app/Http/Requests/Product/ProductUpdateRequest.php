@@ -24,7 +24,23 @@ class ProductUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:3', 'max:255'],
-            'image' => 'nullable|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => [
+                'nullable',
+                function ($attribute, $value, $fail) {
+                    // Check if a new file is uploaded
+                    if ($this->hasFile('image')) {
+                        // Validate the file types and size
+                        $validator = \Validator::make(
+                            $this->all(),
+                            ['image' => 'mimes:jpeg,png,jpg,gif,webp|max:2048']
+                        );
+
+                        if ($validator->fails()) {
+                            $fail($validator->errors()->first($attribute));
+                        }
+                    }
+                }
+            ],
             'description' => ['required', 'string'],
             'cost' => ['required', 'numeric'],
             'price' => ['required', 'numeric'],

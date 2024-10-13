@@ -15,6 +15,7 @@ class OrderController extends Controller
         $products = fn () => (
             Product::query()
             ->where('status', 'available')
+            ->where('stock', '>', 0)
             ->get()
         );
 

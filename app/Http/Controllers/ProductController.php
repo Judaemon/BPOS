@@ -41,12 +41,14 @@ class ProductController extends Controller
 
     public function update(ProductUpdateRequest $request, Product $product)
     {
-        $imagePath = $request->file('image')->store('products', 'public');
-        $imagePath = "storage/$imagePath";
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+            $imagePath = "storage/$imagePath";
+        }
 
         $product->update([
             'name' => $request->name,
-            'image' => $imagePath,
+            'image' => $imagePath ?? $product->image,
             'description' => $request->description,
             'cost' => $request->cost,
             'price' => $request->price,
