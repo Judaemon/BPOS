@@ -46,7 +46,7 @@ export const columns = [
   },
   {
     accessorKey: 'image',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="image" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Image" />,
     cell: ({ row }) => {
       const image = row.getValue('image');
 
