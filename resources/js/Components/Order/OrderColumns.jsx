@@ -29,6 +29,23 @@ export const OrderColumn = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="ID" />,
   },
   {
+    accessorKey: 'image',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Image" />,
+    cell: ({ row }) => {
+      const image = row.getValue('image');
+
+      if (!image) {
+        return (
+          <div className="flex gap-1">
+            <Image className="h-4 w-4" /> No image
+          </div>
+        );
+      }
+
+      return <img src={`${image}`} alt="product" className="w-8 h-8 rounded-full" />;
+    }
+  },
+  {
     accessorKey: 'name',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Name" />,
   },
