@@ -20,15 +20,8 @@ class Product extends Model
         'status'
     ];
 
-    public function getFormattedPriceAttribute()
+    public function getTotalAttribute()
     {
-        return Money::of($this->price, 'PHP')->formatTo('en_PH');
-    }
-
-    public function getFormattedTotalAttribute()
-    {
-
-        $totalAmount = $this->pivot->quantity * $this->price;
-        return Money::of($totalAmount, 'PHP')->formatTo('en_PH');
+        return  $this->pivot->quantity * $this->price;
     }
 }

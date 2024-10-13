@@ -6,7 +6,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/shadcn/ui/dialog';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/shadcn/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/shadcn/ui/select';
 import { router, useForm } from '@inertiajs/react';
 
 import { Button } from '@/shadcn/ui/button';
@@ -107,12 +115,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
 
           <div>
             <Label className="pl-1">Image</Label>
-            <img
-              id="preview"
-              src=""
-              alt="Image Preview"
-              style={{ maxWidth: '500px', display: 'none' }}
-            />
+            <img className="m-full object-cover" id="preview" src="" alt="Image Preview" />
             <Input
               className="m-1"
               type="file"

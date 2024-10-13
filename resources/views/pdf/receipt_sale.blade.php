@@ -3519,8 +3519,8 @@
                 <tr>
                     <td class="border-b border-gray-200 py-2">{{ $product->name }}</td>
                     <td class="border-b border-gray-200 py-2 text-right">{{ $product->pivot->quantity }}</td>
-                    <td class="border-b border-gray-200 py-2 text-right currency">{{ $product->formatted_price }}</td>
-                    <td class="border-b border-gray-200 py-2 text-right currency">{{ $product->formatted_total }}</td>
+                    <td class="border-b border-gray-200 py-2 text-right currency">₱ {{ $product->price }}</td>
+                    <td class="border-b border-gray-200 py-2 text-right currency">₱ {{ $product->total }}</td>
                 </tr>
             @endforeach
             </tbody>
@@ -3535,7 +3535,7 @@
                 </tr> --}}
                 <tr>
                     <td class="py-2 text-right font-semibold" colspan="3">Total</td>
-                    <td class="py-2 text-right currency">{{ $sale->formatted_total_amount }}</td>
+                    <td class="py-2 text-right currency">₱ {{ $sale->total_amount }}</td>
                 </tr>
             </tfoot>
         </table>

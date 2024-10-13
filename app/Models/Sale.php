@@ -36,11 +36,6 @@ class Sale extends Model
             ->withTimestamps();
     }
 
-    public function getFormattedTotalAmountAttribute()
-    {
-        return Money::of($this->total_amount, 'PHP')->formatTo('en_PH');
-    }
-
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->format('F j, Y');
