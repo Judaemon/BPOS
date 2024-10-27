@@ -9,14 +9,14 @@ use App\Services\TestService;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\GCashController;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
+
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', function () {
@@ -44,6 +44,14 @@ Route::middleware(['auth'])->group(function () {
     // // Route::get('/orders', function () {
     // //     return Inertia::render('Orders');
     // })->name('orders');
+
+    // Route::post('/pay-with-gcash', [GCashController::class, 'payWithGCash'])->name('gcash.pay');
+    // Route::get('/gcash/callback', [GCashController::class, 'handleCallback'])->name('gcash.callback');
+
+    Route::get('/gcash/pay', [GCashController::class, 'createSource']);
+    Route::get('/gcash/pay/success', [GCashController::class, 'handleSuccess'])->name('gcash.success');
+    Route::get('/gcash/pay/failed', [GCashController::class, 'handleFailed'])->name('gcash.failed');
+
 });
 
 Route::middleware('auth')->group(function () {
