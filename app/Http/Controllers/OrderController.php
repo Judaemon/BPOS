@@ -12,12 +12,10 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $products = fn () => (
-            Product::query()
+        $products = Product::query()
             ->where('status', 'available')
             ->where('stock', '>', 0)
-            ->get()
-        );
+            ->get();
 
         $sale = session('sale');
         $message = session('message');
@@ -26,6 +24,7 @@ class OrderController extends Controller
             'products' => $products,
             'sale' => $sale,
             'message' => $message,
+            'paymentIntent' => session('paymentIntent'),
         ]);
     }
 

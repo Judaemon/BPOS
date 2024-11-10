@@ -22,12 +22,13 @@ import { Input } from '@/shadcn/ui/input';
 import InputError from '../InputError';
 import { Label } from '@/shadcn/ui/label';
 import { PRODUCT_STATUS } from '@/data/status';
-import React from 'react';
 import { capitalizeFirstLetter } from '@/Helpers/StringHelper';
+import { useState } from 'react';
 import { useToast } from '@/shadcn/ui/use-toast';
 
 export default function ProductDialog({ product, setProduct, action, dialogTrigger }) {
   const { toast } = useToast();
+  const { open, setOpen } = useState(false);
 
   const { data, setData, post, processing, errors, setError, clearErrors, reset } = useForm({
     id: product.id || null,
@@ -49,6 +50,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
           description: 'Product has been updated successfully',
         });
         clearErrors();
+        setOpen(false);
       },
       onError: (error) => {
         setError(error);
@@ -70,6 +72,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
           description: 'Product has been created successfully',
         });
         clearErrors();
+        setOpen(false);
       },
       onError: (error) => {
         setError(error);
@@ -93,7 +96,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
   }
 
   return (
-    <Dialog onOpenChange={() => reset()}>
+    <Dialog open={open} onOpenChange={() => reset()}>
       <DialogTrigger>{dialogTrigger}</DialogTrigger>
       <DialogContent className="overflow-y-scroll max-h-[calc(100vh-2rem)] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         <DialogHeader>

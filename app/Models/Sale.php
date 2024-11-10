@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Brick\Money\Money;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,7 +16,8 @@ class Sale extends Model
         'receipt_number',
         'customer_name',
         'payment_method',
-        'account_number'
+        'account_number',
+        'payment_intent_id'
     ];
 
     protected $cast = [

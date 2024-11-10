@@ -92,7 +92,34 @@ const CheckOutForm = ({ className, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('submit');
+
+    if (data.payment_method === 'gcash') {
+      post('gcash/pay', {
+        onSuccess: (response) => {
+          const paymentLink = response.props.paymentIntent.next_action.redirect.url;
+          toast({
+            title: 'Gcash payment request created',
+            description: 'Please complete the payment to continue',
+            duration: 1000 * 10, // 10 seconds
+            action: (
+              <ToastAction className="bg-primary text-white hover:text-black" altText="Download receipt">
+                <a href={`/sales/${response.props.sale.id}/pdf`} target="_blank" rel="noreferrer">
+                  Download receipt
+                </a>
+              </ToastAction>
+            ),
+          });
+          actions.checkout(data.payment);
+
+          openPaymentTab(paymentLink);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      });
+
+      return;
+    }
 
     post('/sales', {
       onSuccess: (response) => {
@@ -110,7 +137,7 @@ const CheckOutForm = ({ className, onSubmit }) => {
         });
 
         actions.checkout(data.payment);
-        // onSubmit();
+        onSubmit();
       },
       onError: (error) => {
         setError(error);
@@ -128,6 +155,22 @@ const CheckOutForm = ({ className, onSubmit }) => {
     setData((data) => ({ ...data, payment_method: paymentMethod }));
   };
 
+  const openPaymentTab = (paymentLink) => {
+    const newTab = window.open(paymentLink, "_blank");
+
+    if (newTab) {
+      // Check every second if the tab is closed
+      const checkTabClosed = setInterval(() => {
+        if (newTab.closed) {
+          clearInterval(checkTabClosed);
+          console.log("The new tab has been closed.");
+        }
+      }, 1000);
+    } else {
+      console.log("Failed to open the new tab.");
+    }
+  };
+  
   useEffect(() => {
     const change = data.payment - state.total;
     setData('change', data.payment > state.total ? change : 0);

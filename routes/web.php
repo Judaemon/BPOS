@@ -6,7 +6,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\TestController;
 use App\Services\TestService;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\GCashController;
@@ -26,7 +25,6 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
         'chartData' => $chartData,
     ]);
-    // return Inertia::render('Dashboard', $chartData);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -39,19 +37,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::resource('/order', OrderController::class);
     Route::resource('/sales', SaleController::class);
-    
+
     Route::get('/sales/{sale}/pdf', [SaleController::class, 'pdf'])->name('sales.pdf');
     // // Route::get('/orders', function () {
     // //     return Inertia::render('Orders');
     // })->name('orders');
 
-    // Route::post('/pay-with-gcash', [GCashController::class, 'payWithGCash'])->name('gcash.pay');
-    // Route::get('/gcash/callback', [GCashController::class, 'handleCallback'])->name('gcash.callback');
-
-    Route::get('/gcash/pay', [GCashController::class, 'createSource']);
+    Route::post('/gcash/pay', [GCashController::class, 'processPayment']);
     Route::get('/gcash/pay/success', [GCashController::class, 'handleSuccess'])->name('gcash.success');
     Route::get('/gcash/pay/failed', [GCashController::class, 'handleFailed'])->name('gcash.failed');
-
 });
 
 Route::middleware('auth')->group(function () {
@@ -68,5 +62,4 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/test-pdf', [TestController::class, 'testPdf']);
 });
 
-
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

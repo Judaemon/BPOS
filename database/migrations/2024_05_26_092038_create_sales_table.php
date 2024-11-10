@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('payment_method')->required();
             $table->string('account_number')->required()->nullable();
 
+            $table->string('payment_intent_id')->nullable(); // Paymongo Payment Intent ID
+            $table->string('status')->default('pending'); // pending, success, failed
+            
             $table->timestamps();
         });
     }
