@@ -12,6 +12,7 @@ import { Checkbox } from '@/shadcn/ui/checkbox';
 import { DataTableColumnHeader } from '../DataTable/data-table-column-header';
 import { MoreHorizontal } from 'lucide-react';
 import PdfDownloader from '../Pdf/DownloadPdf';
+import { capitalizeFirstLetter } from '@/Helpers/StringHelper';
 
 export const SalesColumns = [
   {
@@ -75,7 +76,7 @@ export const SalesColumns = [
     cell: ({ row }) => {
       const products = row.getValue('products');
       const id = row.getValue('id');
-    
+
       return (
         <div>
           {products.map((product) => (
@@ -85,7 +86,17 @@ export const SalesColumns = [
           ))}
         </div>
       );
-    }
+    },
+  },
+  {
+    accessorKey: 'status',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Payment status" />,
+    cell: ({ row }) => {
+      const status = row.getValue('status');
+      const color = status === 'success' ? 'text-green-500' : 'text-red-500';
+
+      return <div className={color}>{capitalizeFirstLetter(status)}</div>;
+    },
   },
   {
     id: 'actions',

@@ -34,7 +34,7 @@ class GCashController extends Controller
             'customer_name' => $validatedData['customer_name'],
             'account_number' => $validatedData['account_number'],
             'payment_intent_id' => $paymentIntent['id'],
-            'products' => $validatedData['products'],  
+            'products' => $validatedData['products'],
         ];
 
         $sale = $this->saleService->createSale($sale);
@@ -58,15 +58,14 @@ class GCashController extends Controller
         $sale = Sale::where('payment_intent_id', $payment_intent_id)->first();
 
         if (!$paymentIntent->getAttributes()["payments"]) {
-            $this->saleService->updateSaleStatus($sale, 'failed'); 
+            $this->saleService->updateSaleStatus($sale, 'failed');
 
             return redirect()->route('gcash.failed');
         }
 
-
         $this->saleService->deductStock($sale);
         $this->saleService->updateSaleStatus($sale, 'success');
-        
+
         return Inertia::render('Payment/PaymentSuccess', [
             'sale' => $sale,
             'message' => 'Payment successful!',
