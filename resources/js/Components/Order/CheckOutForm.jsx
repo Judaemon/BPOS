@@ -18,6 +18,7 @@ import {
 } from '@/shadcn/ui/drawer';
 import { RadioGroup, RadioGroupItem } from '@/shadcn/ui/radio-group';
 import { React, useEffect, useState } from 'react';
+import { router, useForm } from '@inertiajs/react';
 
 import { Button } from '@/shadcn/ui/button';
 import { Input } from '@/shadcn/ui/input';
@@ -25,7 +26,6 @@ import { Label } from '@/shadcn/ui/label';
 import { ToastAction } from '@/shadcn/ui/toast';
 import { cn } from '@/lib/utils';
 import { useCart } from '@/hooks/Cart';
-import { useForm } from '@inertiajs/react';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { useToast } from '@/shadcn/ui/use-toast';
 
@@ -163,7 +163,7 @@ const CheckOutForm = ({ className, onSubmit }) => {
       const checkTabClosed = setInterval(() => {
         if (newTab.closed) {
           clearInterval(checkTabClosed);
-          console.log("The new tab has been closed.");
+          router.reload({ only: ['products'] })
         }
       }, 1000);
     } else {
