@@ -10,7 +10,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
-use Log;
 
 class SalesTableSeeder extends Seeder
 {
@@ -20,7 +19,7 @@ class SalesTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        $months = 1; // Number of months of sales history
+        $months = 5; // Number of months of sales history
 
         // Fetch all products and users to associate with sales
         $products = Product::all();

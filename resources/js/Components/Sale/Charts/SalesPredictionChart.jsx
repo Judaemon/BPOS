@@ -1,6 +1,7 @@
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/shadcn/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/shadcn/ui/chart';
+import { formatDateToReadable, getMonthName } from '@/Helpers/StringHelper';
 
 import { TrendingUp } from 'lucide-react';
 
@@ -31,7 +32,7 @@ export function SalesPredictionChart({ data = [] }) {
     <Card>
       <CardHeader>
         <CardTitle>Predicted Sales Summary</CardTitle>
-        <CardDescription>Oct - Dec 2024</CardDescription>
+        <CardDescription>{formatDateToReadable(data[0].month)} to {formatDateToReadable(data[data.length - 1].month)}</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[200px] w-full">
@@ -42,7 +43,6 @@ export function SalesPredictionChart({ data = [] }) {
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip content={<ChartTooltipContent />} />
             <Bar dataKey="predicted_sales" fill="var(--color-desktop)" radius={4} />
@@ -52,11 +52,8 @@ export function SalesPredictionChart({ data = [] }) {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
-      <div className="flex gap-2 font-medium leading-none">
-          Prediction <TrendingUp className="h-4 w-4" />
-        </div>
         <div className="leading-none text-muted-foreground">
-          Showing predicted total sales from October to December
+          Showing predicted total sales from {getMonthName(data[0].month)} to {getMonthName(data[data.length - 1].month)}.
         </div>
       </CardFooter>
     </Card>

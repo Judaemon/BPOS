@@ -1,17 +1,9 @@
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/shadcn/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/shadcn/ui/chart';
+import { formatDateToReadable, getMonthName } from '@/Helpers/StringHelper';
 
 import { TrendingUp } from 'lucide-react';
-
-const chartData = [
-  { month: 'January', desktop: 186, mobile: 80 },
-  { month: 'February', desktop: 305, mobile: 200 },
-  { month: 'March', desktop: 237, mobile: 120 },
-  { month: 'April', desktop: 73, mobile: 190 },
-  { month: 'May', desktop: 209, mobile: 130 },
-  { month: 'June', desktop: 214, mobile: 140 },
-];
 
 const chartConfig = {
   desktop: {
@@ -31,7 +23,7 @@ export function SalesChart({ data = [] }) {
     <Card>
       <CardHeader>
         <CardTitle>Sales Summary</CardTitle>
-        <CardDescription>May - Sept 2024</CardDescription>
+        <CardDescription>{formatDateToReadable(data[0].month)} to {formatDateToReadable(data[data.length - 1].month)}</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[200px] w-full">
@@ -42,7 +34,6 @@ export function SalesChart({ data = [] }) {
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip content={<ChartTooltipContent />} />
             <Bar dataKey="total_sales" fill="var(--color-desktop)" radius={4} />
@@ -52,11 +43,8 @@ export function SalesChart({ data = [] }) {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Trending up by 2.3% this month <TrendingUp className="h-4 w-4" />
-        </div>
         <div className="leading-none text-muted-foreground">
-          Showing total sales from May to Sept
+          Showing total sales from {getMonthName(data[0].month)} to {getMonthName(data[data.length - 1].month)}.
         </div>
       </CardFooter>
     </Card>
