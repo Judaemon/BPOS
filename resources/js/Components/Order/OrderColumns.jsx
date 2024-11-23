@@ -1,6 +1,7 @@
 import { AddToCartDrawerDialog } from './AddToCartForm';
 import { Checkbox } from '@/shadcn/ui/checkbox';
 import { DataTableColumnHeader } from '../DataTable/data-table-column-header';
+import { snakeToNormal } from '@/Helpers/StringHelper';
 
 export const OrderColumn = [
   {
@@ -43,7 +44,7 @@ export const OrderColumn = [
       }
 
       return <img src={`${image}`} alt="product" className="w-8 h-8 rounded-full" />;
-    }
+    },
   },
   {
     accessorKey: 'name',
@@ -71,6 +72,19 @@ export const OrderColumn = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
+    },
+    cell: ({ row }) => {
+      const status = row.getValue('status');
+
+      return (
+        <p
+          className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${
+            status === 'available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+          }`}
+        >
+          {snakeToNormal(status)}
+        </p>
+      );
     },
   },
   {

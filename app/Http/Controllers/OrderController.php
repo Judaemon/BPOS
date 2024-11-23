@@ -13,7 +13,6 @@ class OrderController extends Controller
     public function index()
     {
         $products = Product::query()
-            ->where('status', 'available')
             ->where('stock', '>', 0)
             ->get();
 

@@ -42,15 +42,18 @@ class ProductSeeder extends Seeder
             'images/products/Wooden_Shovel.webp',
         ];
 
+        $productStatus = $statuses[rand(0, 3)];
+        $productStock = $productStatus === 'out_of_stock' ? 0 : rand(0, 100);
+
         foreach ($images as $i => $image) {
             Product::create([
                 'name' => 'Product ' . ($i + 1),
                 'image' => $image,
                 'description' => 'Description of Product ' . ($i + 1),
-                'stock' => rand(0, 100),
+                'stock' => $productStock,
                 'cost' => rand(50, 200),
                 'price' => rand(100, 500),
-                'status' => $statuses[rand(0, 3)],
+                'status' => $productStatus,
             ]);
         }
     }

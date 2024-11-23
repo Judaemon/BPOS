@@ -21,3 +21,10 @@ export function getMonthName(dateString) {
   const date = new Date(year, month - 1); // Month is 0-indexed
   return date.toLocaleString('en-US', { month: 'long' });
 }
+
+export function snakeToNormal(text) {
+  return text
+      .split('_') // Split the string by underscores
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+      .join(' '); // Join them with spaces
+}
