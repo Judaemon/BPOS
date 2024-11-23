@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateSaleRequest;
-use App\Models\Product;
 use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,10 +30,12 @@ class SaleController extends Controller
             $sale = Sale::create([
                 'seller_id' => auth()->id(),
                 'total_amount' => $validatedData["total_amount"],
+                'payment_received' => $validatedData["payment"],
                 'receipt_number' => "RN" . rand(100000, 999999),
                 'customer_name' => $validatedData["customer_name"],
                 'payment_method' => $validatedData["payment_method"],
                 'account_number' => $validatedData["account_number"] ?? null,
+                'status' => 'success',
             ]);
 
             $products = $validatedData["products"];

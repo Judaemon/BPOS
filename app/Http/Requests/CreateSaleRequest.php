@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateSaleRequest extends FormRequest
@@ -45,8 +46,22 @@ class CreateSaleRequest extends FormRequest
 
             'products' => 'required|array',
             'products.*.product_id' => 'required|exists:products,id',
-            'products.*.quantity' => 'required|integer|min:1',
+            'products.*.quantity' => [
+                'required', 
+                'integer', 
+                'min:1',
+                function ($attribute, $value, $fail) {
+                    $index = (int) str_replace('products.', '', explode('.', $attribute)[1]);
+                    $productData = request('products')[$index];
+                    $product = Product::find($productData['product_id']);
+                    
+                    if ($product && $product->stock < $value) {
+                        $fail('The quantity of ' . $product->name . ' is not enough.');
+                    }
+                },
+            ],
             'products.*.cost' => 'required|numeric|min:1',
+            'products.*.price' => 'required|numeric|min:1',
             'products.*.item_total' => 'required|numeric|min:1',
         ];
     }

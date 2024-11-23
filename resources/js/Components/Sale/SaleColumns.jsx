@@ -66,13 +66,25 @@ export const SalesColumns = [
     },
   },
   {
+    accessorKey: 'payment_received',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Payment received" />,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue('payment_received'));
+      const formatted = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'PHP',
+      }).format(amount);
+
+      return <div className="font-medium">{formatted}</div>;
+    },
+  },
+  {
     accessorKey: 'created_at',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Sale date" />,
   },
   {
     accessorKey: 'products',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Products" />,
-    hide: true,
     cell: ({ row }) => {
       const products = row.getValue('products');
       const id = row.getValue('id');

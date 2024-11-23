@@ -13,11 +13,13 @@ class Sale extends Model
     protected $fillable = [
         'seller_id',
         'total_amount',
+        'payment_received',
         'receipt_number',
         'customer_name',
         'payment_method',
         'account_number',
-        'payment_intent_id'
+        'payment_intent_id',
+        'status'
     ];
 
     protected $cast = [
@@ -32,7 +34,7 @@ class Sale extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'sale_product', 'sale_id', 'product_id')
-            ->withPivot('quantity', 'cost', 'item_total')
+            ->withPivot('quantity', 'cost', 'price', 'item_total')
             ->withTimestamps();
     }
 

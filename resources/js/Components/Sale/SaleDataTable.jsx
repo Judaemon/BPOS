@@ -15,11 +15,12 @@ import { SaleDataTableToolbar } from './SaleDataTableToolbar';
 import { useState } from 'react';
 
 export function SaleDataTable({ columns, data }) {
-  const [sorting, setSorting] = useState([]);
+  const [sorting, setSorting] = useState([{ id: 'id', desc: true }]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({
-    products:false
+    products: false,
+    payment_received: false,
   });
 
   const table = useReactTable({

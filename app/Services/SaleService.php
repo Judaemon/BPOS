@@ -57,6 +57,7 @@ class SaleService
                 $sale->products()->attach($product['product_id'], [
                     'quantity' => $product["quantity"],
                     'cost' => $product["cost"],
+                    'price' => $product["price"],
                     'item_total' => $product["item_total"],
                 ]);
             }
