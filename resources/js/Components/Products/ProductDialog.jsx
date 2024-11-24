@@ -28,7 +28,7 @@ import { useToast } from '@/shadcn/ui/use-toast';
 
 export default function ProductDialog({ product, setProduct, action, dialogTrigger }) {
   const { toast } = useToast();
-  const { open, setOpen } = useState(false);
+  const [open, setOpen] = useState(false);
 
   const { data, setData, post, processing, errors, setError, clearErrors, reset } = useForm({
     id: product.id || null,
@@ -42,7 +42,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
   });
 
   const updateProduct = async () => {
-    post(`/product/${data.id}`, data, {
+    router.post(`/product/${data.id}`, data, {
       preserveScroll: true,
       onSuccess: () => {
         toast({
@@ -96,7 +96,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
   }
 
   return (
-    <Dialog open={open} onOpenChange={() => reset()}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>{dialogTrigger}</DialogTrigger>
       <DialogContent className="overflow-y-scroll max-h-[calc(100vh-2rem)] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         <DialogHeader>
