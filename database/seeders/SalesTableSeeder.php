@@ -39,6 +39,7 @@ class SalesTableSeeder extends Seeder
                     $sale = Sale::create([
                         'seller_id' => $seller->id,
                         'total_amount' => 0, // Placeholder, will update later
+                        'payment_received' => 0, // Placeholder, will update later
                         'receipt_number' => "RN" . rand(100000, 999999),
                         'customer_name' => $faker->name,
                         'payment_method' => $paymentMethod,
@@ -70,7 +71,10 @@ class SalesTableSeeder extends Seeder
                     }
 
                     // Update total amount for the sale
-                    $sale->update(['total_amount' => $totalAmount]);
+                    $sale->update([
+                        'total_amount' => $totalAmount,
+                        'payment_received' => $totalAmount + random_int(0, 1000),
+                    ]);
                 });
             }
         }

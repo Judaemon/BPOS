@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Receipt</title>
     <!-- Tailwind CSS -->
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
@@ -13,7 +14,7 @@
             border-width: 0;
             border-style: solid;
             border-color: #e5e7eb;
-            font-family: 'DejaVuSans', sans-serif;
+            font-family: 'Figtree', sans-serif;
         }
 
         :before,:after {
@@ -26,7 +27,7 @@
             -moz-tab-size: 4;
             -o-tab-size: 4;
             tab-size: 4;
-            font-family: Figtree,ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji";
+            font-family: "Figtree";
             font-feature-settings: normal;
             font-variation-settings: normal;
             -webkit-tap-highlight-color: transparent
@@ -37,15 +38,15 @@
             line-height: inherit
         }
 
-        @font-face {
+        /* @font-face {
             font-family: 'DejaVuSans';
             src: public_path('/fonts/DejaVuSans.ttf') format('truetype');
 
             /* src: url('/storage/fonts/DejaVuSans.ttf') format('truetype'); */
-        }
+        } */
     
         .currency {
-            font-family: 'DejaVuSans', sans-serif;
+            font-family: 'Figtree', sans-serif;
         }
         
         hr {
@@ -3501,7 +3502,17 @@
         <div class="mb-4">
             <h3 class="text-xl font-bold mb-2">Billing Information</h3>
             <p class="text-gray-600">Customer Name: {{ $sale->customer_name }}</p>
-            <p class="text-gray-600">Mode of Payment: {{ $sale->payment_method }}</p>
+            
+            
+            @if ($sale->payment_method == 'cash')
+                <p class="text-gray-600">Mode of Payment: Cash</p>
+                <p class="text-gray-600">Payment Received: {{ $sale->payment_received * 1}}</p>
+                <p class="text-gray-600">Total Amount: {{ $sale->total_amount * 1}}</p>
+                <p class="text-gray-600">Change: {{ $sale->payment_received - $sale->total_amount }}</p>
+            @else
+                <p class="text-gray-600">Mode of Payment: GCash</p>
+
+            @endif
         </div>
 
         <h2 class="text-xl font-bold mb-2">Sale Information</h2>
@@ -3519,8 +3530,8 @@
                 <tr>
                     <td class="border-b border-gray-200 py-2">{{ $product->name }}</td>
                     <td class="border-b border-gray-200 py-2 text-right">{{ $product->pivot->quantity }}</td>
-                    <td class="border-b border-gray-200 py-2 text-right currency">₱ {{ $product->price }}</td>
-                    <td class="border-b border-gray-200 py-2 text-right currency">₱ {{ $product->total }}</td>
+                    <td class="border-b border-gray-200 py-2 text-right currency"><span style="font-family: DejaVu Sans;">₱</span> {{ $product->price * 1 }}</td>
+                    <td class="border-b border-gray-200 py-2 text-right currency"><span style="font-family: DejaVu Sans;">₱</span> {{ $product->total * 1 }}</td>
                 </tr>
             @endforeach
             </tbody>
@@ -3535,7 +3546,7 @@
                 </tr> --}}
                 <tr>
                     <td class="py-2 text-right font-semibold" colspan="3">Total</td>
-                    <td class="py-2 text-right currency">₱ {{ $sale->total_amount }}</td>
+                    <td class="py-2 text-right currency"><span style="font-family: DejaVu Sans;">₱</span> {{ $sale->total_amount * 1 }}</td>
                 </tr>
             </tfoot>
         </table>
