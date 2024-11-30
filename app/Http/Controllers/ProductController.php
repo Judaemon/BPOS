@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductExport;
 use App\Http\Requests\Product\ProductStoreRequest;
 use App\Http\Requests\Product\ProductUpdateRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -57,5 +59,14 @@ class ProductController extends Controller
         ]);
 
         return to_route('product.index');
+    }
+
+    public function export(Request $request)
+    {
+        try {
+            return Excel::download(new ProductExport, 'products123.xlsx');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

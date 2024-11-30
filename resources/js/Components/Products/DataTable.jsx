@@ -1,8 +1,3 @@
-import { memo, useState } from 'react';
-import ProductDialog from './ProductDialog';
-import { Button } from '@/shadcn/ui/button';
-import { DataTableToolbar } from './DataTableToolbar';
-import { DataTablePagination } from '../DataTable/data-table-pagination';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shadcn/ui/table';
 import {
   flexRender,
@@ -14,6 +9,13 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { memo, useState } from 'react';
+
+import { Button } from '@/shadcn/ui/button';
+import { DataTablePagination } from '../DataTable/data-table-pagination';
+import { DataTableToolbar } from './DataTableToolbar';
+import ProductDialog from './ProductDialog';
+import { fetchExportProduct } from '@/Api/ProductAPI';
 
 export function DataTable({ columns, data }) {
   const [sorting, setSorting] = useState([]);
@@ -50,9 +52,9 @@ export function DataTable({ columns, data }) {
           <DataTableToolbar table={table} />
         </div>
 
-        <MemoizedProductDialog
-          action="creating"
-        />
+        <MemoizedProductDialog action="creating" />
+
+        <ExportProductButton table={table} />
       </div>
 
       <div className="rounded-md border">
@@ -112,3 +114,31 @@ const MemoizedProductDialog = memo(function ProductDialogTest({ action }) {
     />
   );
 });
+
+const ExportProductButton = ({ table }) => {
+  const handleExport = async () => {
+    const response = await fetchExportProduct({
+      test: 'test',
+    });
+
+    // Extract the filename from the Content-Disposition header
+    const contentDisposition = response.headers['content-disposition'];
+    const fileNameMatch = /filename="?([^"]+)"?/.exec(contentDisposition);
+    const fileName = fileNameMatch ? fileNameMatch[1] : 'file.xlsx'; // Default filename if extraction fails
+
+    // Create a link element
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', fileName); // Use the dynamic filename
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  return (
+    <Button onClick={handleExport} size="sm" variant="default" className="outline-none">
+      Export
+    </Button>
+  );
+};
