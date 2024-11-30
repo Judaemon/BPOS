@@ -59,7 +59,7 @@ export function AddToCartDrawerDialog({ item }) {
         <DrawerHeader className="text-left">
           <DrawerTitle>{titleText}</DrawerTitle>
           <DrawerDescription>
-            Add this item to your cart. You can adjust the quantity later. Make changes to your
+            Add this item to your cart. You can adjust the quantity later.
           </DrawerDescription>
         </DrawerHeader>
         <AddToCartForm item={item} className="px-4" onSubmit={setOpen} />

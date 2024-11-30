@@ -5,6 +5,7 @@ import { Head } from '@inertiajs/react';
 import { OrderColumn } from '@/Components/Order/OrderColumns';
 import { OrderDataTable } from '@/Components/Order/OrderDataTable';
 import { memo } from 'react';
+import { toast } from '@/shadcn/ui/use-toast';
 import { useCart } from '@/hooks/Cart';
 
 export default function Products({ auth, products }) {
@@ -71,7 +72,7 @@ const CartItem = memo(({ item }) => {
         <p>{item.item_total}</p>
       </div>
     </div>
-  )
+  );
 });
 
 const QuantityInput = ({ item }) => {
@@ -86,16 +87,24 @@ const QuantityInput = ({ item }) => {
     actions.updateQuantity(item, item.quantity - 1);
   };
 
+  const handleIncreaseQuantity = () => {
+    if (item.quantity >= item.stock) {
+      toast({
+        description: 'You have reached the maximum stock',
+      });
+      return;
+    }
+
+    actions.updateQuantity(item, parseInt(item.quantity) + 1);
+  };
+
   return (
     <div className="flex space-x-4">
       <Button variant="outline" onClick={handleReduceQuantity}>
         -
       </Button>
       <p className=" font-bold">{item.quantity}</p>
-      <Button
-        variant="outline"
-        onClick={() => actions.updateQuantity(item, parseInt(item.quantity) + 1)}
-      >
+      <Button variant="outline" onClick={handleIncreaseQuantity}>
         +
       </Button>
     </div>
