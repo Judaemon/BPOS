@@ -26,9 +26,9 @@ class ProductStoreRequest extends FormRequest
             'name' => ['required', 'string', 'min:3', 'max:255'],
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'description' => ['required', 'string'],
-            'cost' => ['required', 'numeric'],
-            'price' => ['required', 'numeric'],
-            'stock' => ['required', 'numeric'],
+            'cost' => ['required', 'numeric', 'min:0'],
+            'price' => ['required', 'numeric', 'min:0'],
+            'stock' => ['required', 'numeric', 'min:0'],
             'status' => ['required', Rule::in(['available', 'out_of_stock', 'enabled', 'disabled'])],
         ];
     }
