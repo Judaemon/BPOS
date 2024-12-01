@@ -18,7 +18,7 @@ export function OrderDataTable({ columns, data }) {
   const [sorting, setSorting] = useState([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnFilters, setColumnFilters] = useState([
-    { id: 'status', value: 'available' },
+    { id: 'status', value: ['available'] },
   ]);
   const [columnVisibility, setColumnVisibility] = useState({});
 

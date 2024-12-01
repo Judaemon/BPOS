@@ -11,8 +11,8 @@ import { Image, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/shadcn/ui/button';
 import { Checkbox } from '@/shadcn/ui/checkbox';
 import { DataTableColumnHeader } from '../DataTable/data-table-column-header';
-import { PRODUCT_STATUS } from '@/data/status';
 import ProductDialog from './ProductDialog';
+import { snakeToNormal } from '@/Helpers/StringHelper';
 
 export const columns = [
   {
@@ -59,7 +59,7 @@ export const columns = [
       }
 
       return <img src={`${image}`} alt="product" className="w-8 h-8 rounded-full" />;
-    }
+    },
   },
   {
     accessorKey: 'stock',
@@ -94,12 +94,21 @@ export const columns = [
   {
     accessorKey: 'status',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
     cell: ({ row }) => {
-      const statusValue = row.getValue('status');
-  
-      const status = PRODUCT_STATUS.find((item) => item.value === statusValue);
-  
-      return <div className="font-medium">{status ? status.label : statusValue}</div>;
+      const status = row.getValue('status');
+
+      return (
+        <p
+          className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${
+            status === 'available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+          }`}
+        >
+          {snakeToNormal(status)}
+        </p>
+      );
     },
   },
   {
