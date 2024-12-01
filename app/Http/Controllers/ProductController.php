@@ -64,7 +64,10 @@ class ProductController extends Controller
     public function export(Request $request)
     {
         try {
-            return Excel::download(new ProductExport, 'products123.xlsx');
+            $fileFormat = '.xlsx';
+            $fileName = 'Products' . now()->format('YmdHis') . $fileFormat;
+
+            return Excel::download(new ProductExport, $fileName);
         } catch (\Throwable $th) {
             throw $th;
         }
