@@ -32,16 +32,21 @@ class SalesExport extends DefaultValueBinder implements FromCollection, ShouldAu
     public function collection()
     {
         $sales = Sale::query()
-            ->select([
-                'id',
-                'total_amount',
-                'payment_received',
-                'receipt_number',
-                'customer_name',
-                'payment_method',
-                'status'
-            ])
-            ->get();
+            ->with(['seller'])
+            ->get()
+            ->map(function ($sale){
+                return [
+                    'Sale ID' => $sale->id,
+                    'Receipt Number' => $sale->receipt_number,
+                    'Seller Name' => $sale->seller->name,
+                    'Customer Name' => $sale->customer_name,
+                    'Total Amount' => $sale->total_amount,
+                    'Payment' => $sale->payment_received,
+                    'Sale Date' => $sale->created_at,
+                    'Payment Method' => $sale->payment_method,
+                    'Status' => $sale->status
+                ];
+            });
 
         return $sales;
     }
@@ -50,10 +55,12 @@ class SalesExport extends DefaultValueBinder implements FromCollection, ShouldAu
     {
         return [
             'Sale ID',
+            'Receipt Number',
+            'Seller Name',
+            'Customer Name',
             'Total Amount',
             'Payment',
-            'Receipt Number',
-            'Customer Name',
+            'Sale Date',
             'Payment Method',
             'Status'
         ];
