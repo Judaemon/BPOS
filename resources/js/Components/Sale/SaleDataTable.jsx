@@ -10,8 +10,10 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 
+import { Button } from '@/shadcn/ui/button';
 import { DataTablePagination } from '../DataTable/data-table-pagination';
 import { SaleDataTableToolbar } from './SaleDataTableToolbar';
+import { fetchExportSales } from '@/Api/SalesAPI';
 import { useState } from 'react';
 
 export function SaleDataTable({ columns, data }) {
@@ -51,6 +53,8 @@ export function SaleDataTable({ columns, data }) {
         <div className="w-full">
           <SaleDataTableToolbar table={table} />
         </div>
+
+        <ExportSalesButton table={table} />
       </div>
 
       <div className="rounded-md border">
@@ -96,3 +100,31 @@ export function SaleDataTable({ columns, data }) {
     </div>
   );
 }
+
+const ExportSalesButton = ({ table }) => {
+  const handleExport = async () => {
+    const response = await fetchExportSales({
+      test: 'test',
+    });
+
+    // Extract the filename from the Content-Disposition header
+    const contentDisposition = response.headers['content-disposition'];
+    const fileNameMatch = /filename="?([^"]+)"?/.exec(contentDisposition);
+    const fileName = fileNameMatch ? fileNameMatch[1] : 'file.xlsx'; // Default filename if extraction fails
+
+    // Create a link element
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', fileName); // Use the dynamic filename
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  return (
+    <Button onClick={handleExport} size="sm" variant="default" className="outline-none">
+      Export
+    </Button>
+  );
+};

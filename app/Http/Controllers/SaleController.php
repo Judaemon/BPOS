@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SalesExport;
 use App\Http\Requests\CreateSaleRequest;
 use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SaleController extends Controller
 {
@@ -70,5 +72,17 @@ class SaleController extends Controller
         $pdf = \PDF::loadView('pdf.receipt_sale', compact('sale'));
 
         return $pdf->download("receipt_sale_{$sale->receipt_number}.pdf");
+    }
+
+    public function export(Request $request)
+    {
+        try {
+            $fileFormat = '.xlsx';
+            $fileName = 'Sales_' . now()->format('YmdHis') . $fileFormat;
+
+            return Excel::download(new SalesExport, $fileName);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

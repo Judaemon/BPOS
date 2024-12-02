@@ -32,6 +32,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('product/{product}', [ProductController::class, 'update'])->name('product.update');
     Route::get('products/export', [ProductController::class, 'export'])->name('product.export');
     Route::resource('/sales', SaleController::class);   // bad practice duplicate route hehe
+    Route::get('sale/export', [SaleController::class, 'export'])->name('sales.export');
 });
 
 Route::middleware(['auth'])->group(function () {
