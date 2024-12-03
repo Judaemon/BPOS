@@ -19,7 +19,7 @@ class SalesTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        $months = 5; // Number of months of sales history
+        $months = 36; // Number of months of sales history
 
         // Fetch all products and users to associate with sales
         $products = Product::all();

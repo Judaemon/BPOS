@@ -12,7 +12,7 @@ class ProductSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {   
+    {
         $statuses = ['available', 'out_of_stock', 'enabled', 'disabled'];
 
         $images = [
@@ -42,10 +42,10 @@ class ProductSeeder extends Seeder
             'images/products/Wooden_Shovel.webp',
         ];
 
-        $productStatus = $statuses[rand(0, 3)];
-        $productStock = $productStatus === 'out_of_stock' ? 0 : rand(0, 100);
-
         foreach ($images as $i => $image) {
+            $productStatus = $statuses[rand(0, 3)];
+            $productStock = $productStatus === 'out_of_stock' ? 0 : rand(0, 100);
+
             Product::create([
                 'name' => 'Product ' . ($i + 1),
                 'image' => $image,
