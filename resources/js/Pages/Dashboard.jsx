@@ -1,13 +1,10 @@
-import { Head, Link } from '@inertiajs/react';
-
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Button } from '@/shadcn/ui/button';
-import { SalesChart } from '../Components/Sale/Charts/SalesChart';
-import { SalesPredictionChart } from '@/Components/Sale/Charts/SalesPredictionChart';
+import { Head } from '@inertiajs/react';
 import { TrendingUp } from 'lucide-react';
+import { YearlySalesChart } from '../Components/Sale/Charts/YearlySalesChart';
 import { hasRole } from '@/lib/permissions';
 
-export default function Dashboard({ auth, chartData }) {
+export default function Dashboard({ auth }) {
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -22,11 +19,10 @@ export default function Dashboard({ auth, chartData }) {
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="bg-white p-6 grid gap-2 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-
             {hasRole('admin') && (
-              <div className="grid grid-cols-2 gap-4 text-black">
-                <SalesChart
-                  data={chartData.current_report}
+              <div className="grid gap-4 text-black">
+                <YearlySalesChart
+                  data={[]}
                   footerContent={
                     <div>
                       <div className="flex gap-2 font-medium leading-none">
@@ -38,8 +34,6 @@ export default function Dashboard({ auth, chartData }) {
                     </div>
                   }
                 />
-
-                <SalesPredictionChart data={chartData.predictions} footerContent={<div></div>} />
               </div>
             )}
           </div>

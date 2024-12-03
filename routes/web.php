@@ -9,6 +9,7 @@ use App\Services\TestService;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\GCashController;
+use App\Services\SaleReportService;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -19,12 +20,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    $test = new TestService;
-    $chartData = $test->generateSalesReport();
 
-    return Inertia::render('Dashboard', [
-        'chartData' => $chartData,
-    ]);
+    return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -33,6 +30,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('products/export', [ProductController::class, 'export'])->name('product.export');
     Route::resource('/sales', SaleController::class);   // bad practice duplicate route hehe
     Route::get('sale/export', [SaleController::class, 'export'])->name('sales.export');
+    Route::get('sale/yearly-report', [SaleController::class, 'yearlyReport'])->name('sales.export');
 });
 
 Route::middleware(['auth'])->group(function () {

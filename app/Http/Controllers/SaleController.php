@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\SalesExport;
 use App\Http\Requests\CreateSaleRequest;
 use App\Models\Sale;
+use App\Services\SaleReportService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -12,6 +13,13 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class SaleController extends Controller
 {
+    private $saleReportService;
+
+    public function __construct(SaleReportService $saleReportService)
+    {
+        $this->saleReportService = $saleReportService;
+    }
+
     public function index()
     {
         $sales = Sale::query()
@@ -81,6 +89,18 @@ class SaleController extends Controller
             $fileName = 'Sales_' . now()->format('YmdHis') . $fileFormat;
 
             return Excel::download(new SalesExport, $fileName);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function yearlyReport(Request $request)
+    {
+        try {
+            $year = $request->input('year', now()->year);
+            $yearlyReport = $this->saleReportService->yearlyReport($year);
+
+            return $yearlyReport;
         } catch (\Throwable $th) {
             throw $th;
         }
