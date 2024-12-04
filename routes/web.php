@@ -20,7 +20,6 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -31,6 +30,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('/sales', SaleController::class);   // bad practice duplicate route hehe
     Route::get('sale/export', [SaleController::class, 'export'])->name('sales.export');
     Route::get('sale/yearly-report', [SaleController::class, 'yearlyReport'])->name('sales.export');
+    Route::get('sale/monthly-report', [SaleController::class, 'monthlyReport']);
 });
 
 Route::middleware(['auth'])->group(function () {

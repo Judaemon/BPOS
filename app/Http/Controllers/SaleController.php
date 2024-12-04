@@ -105,4 +105,17 @@ class SaleController extends Controller
             throw $th;
         }
     }
+
+    public function monthlyReport(Request $request)
+    {
+        try {
+            $year = $request->input('year', now()->year);
+            $month = $request->input('month', now()->month);
+            $monthlyReport = $this->saleReportService->monthlyReport($year, $month);
+
+            return $monthlyReport;
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import { MonthlySalesChart } from '@/Components/Sale/Charts/MonthlySalesChart';
 import { TrendingUp } from 'lucide-react';
 import { YearlySalesChart } from '../Components/Sale/Charts/YearlySalesChart';
 import { hasRole } from '@/lib/permissions';
@@ -34,6 +35,8 @@ export default function Dashboard({ auth }) {
                     </div>
                   }
                 />
+
+                <MonthlySalesChart />
               </div>
             )}
           </div>
