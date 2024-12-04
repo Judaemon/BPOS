@@ -9,8 +9,16 @@ export async function fetchExportSales(params) {
   return response;
 }
 
-export async function fetchYearlySalesReport(params) {
+export const fetchYearlySalesReport = async (params) => {
   const response = await apiClient.get('/sale/yearly-report', {
+    params: params,
+  });
+
+  return response.data;
+}
+
+export const fetchMonthlySalesReport = async (params) => {
+  const response = await apiClient.get('/sale/monthly-report', {
     params: params,
   });
 
