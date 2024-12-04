@@ -22,6 +22,12 @@ export function getMonthName(dateString) {
   return date.toLocaleString('en-US', { month: 'long' });
 }
 
+// year
+export function getYear(dateString) {
+  const [year] = dateString.split('-');
+  return year;
+}
+
 export function snakeToNormal(text) {
   return text
       .split('_') // Split the string by underscores
