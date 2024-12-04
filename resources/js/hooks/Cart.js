@@ -1,13 +1,14 @@
 import { createHook, createStore } from 'react-sweet-state';
-import { setLoading } from './helper';
 
+import { setLoading } from './helper';
+import { toast } from '@/shadcn/ui/use-toast';
 
 const Store = createStore({
   initialState: {
     items: [],
     total: 0,
     loading: false,
-  },  
+  },
   actions: {
     addNewItem:
       (item, quantity) =>
@@ -15,7 +16,10 @@ const Store = createStore({
         const currentItems = [...getState().items];
 
         if (currentItems.find((i) => i.id === item.id)) {
-          window.alert('Item already exists in cart');
+          toast({
+            description: 'Item already exists in cart',
+            variant: 'destructive',
+          });
           return;
         }
         const currentTotal = getState().total;
@@ -39,7 +43,7 @@ const Store = createStore({
         const previousItemTotal = currentItems[itemIndex].item_total;
 
         const itemNewTotal = item.price * newQuantity;
-        const newTotal = (currentTotal - previousItemTotal) + itemNewTotal;
+        const newTotal = currentTotal - previousItemTotal + itemNewTotal;
 
         currentItems[itemIndex] = {
           ...currentItems[itemIndex],
@@ -47,7 +51,7 @@ const Store = createStore({
           item_total: itemNewTotal,
         };
 
-        setState({ items: currentItems, total: newTotal, loading: false});
+        setState({ items: currentItems, total: newTotal, loading: false });
       },
     removeItem:
       (item) =>

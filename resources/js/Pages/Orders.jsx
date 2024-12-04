@@ -91,6 +91,7 @@ const QuantityInput = ({ item }) => {
     if (item.quantity >= item.stock) {
       toast({
         description: 'You have reached the maximum stock',
+        variant: 'destructive',
       });
       return;
     }

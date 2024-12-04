@@ -22,6 +22,7 @@ import { Button } from '@/shadcn/ui/button';
 import { Input } from '@/shadcn/ui/input';
 import { Label } from '@/shadcn/ui/label';
 import { cn } from '@/lib/utils';
+import { toast } from '@/shadcn/ui/use-toast';
 import { useCart } from '@/hooks/Cart';
 import { useMediaQuery } from '@/hooks/use-media-query';
 
@@ -77,6 +78,26 @@ const AddToCartForm = ({ item, className, onSubmit }) => {
   const [quantity, setQuantity] = useState(1);
   const [state, actions] = useCart();
   const handleSubmit = (e) => {
+    if (quantity > item.stock) {
+      toast({
+        description: 'You have reached the maximum stock',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (quantity < 1) {
+      toast({
+        description: 'Quantity must be greater than 0',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    toast({
+      description: 'Item added to cart',
+    });
+
     actions.addNewItem(item, quantity);
     onSubmit(false);
   };
