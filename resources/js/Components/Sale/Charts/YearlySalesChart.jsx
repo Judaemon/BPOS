@@ -25,18 +25,22 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 const chartConfig = {
-  desktop: {
-    label: 'Desktop',
-    color: '#2563eb',
+  total_sales: {
+    label: 'Total Sales',
+    color: "hsl(var(--chart-1))",
   },
-  mobile: {
-    label: 'Mobile',
-    color: '#60a5fa',
+  total_quantity: {
+    label: 'Total Quantity',
+    color: "hsl(var(--chart-2))",
+  },
+  total_revenue: {
+    label: 'Total Quantity',
+    color: "hsl(var(--chart-3))",
   },
 };
 
 export function YearlySalesChart() {
-  const [year, setYear] = useState('2024');
+  const [year, setYear] = useState(new Date().getFullYear().toString());
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['yearlySales', { year }],
@@ -66,6 +70,7 @@ export function YearlySalesChart() {
               <SelectItem value="2024">2024</SelectItem>
               <SelectItem value="2023">2023</SelectItem>
               <SelectItem value="2022">2022</SelectItem>
+              <SelectItem value="2022">2021</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -84,15 +89,15 @@ export function YearlySalesChart() {
             <CartesianGrid vertical={false} />
             <XAxis dataKey="month" tickLine={false} tickMargin={10} axisLine={false} />
             <ChartTooltip content={<ChartTooltipContent />} />
-            <Bar dataKey="total_sales" fill="var(--color-desktop)" radius={4} />
-            <Bar dataKey="total_quantity" fill="var(--color-mobile)" radius={4} />
-            <Bar dataKey="total_revenue" fill="var(--color-mobile)" radius={4} />
+            <Bar dataKey="total_sales" fill="var(--color-total_sales)" radius={4} />
+            <Bar dataKey="total_quantity" fill="var(--color-total_quantity)" radius={4} />
+            <Bar dataKey="total_revenue" fill="var(--color-total_revenue)" radius={4} />
           </BarChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="leading-none text-muted-foreground">
-          Showing total sales, quantity, and revenue from {getMonthName(data[0].month)} to{' '}
+          Showing total sales, quantity, and revenue from {getMonthName(data[0].month)} to {' '}
           {getMonthName(data[data.length - 1].month)}.
         </div>
       </CardFooter>
