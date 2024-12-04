@@ -47,6 +47,7 @@ export function YearlySalesChart() {
     queryFn: () => fetchYearlySalesReport({ year }),
     enabled: !!year,
     refetchOnWindowFocus: false,
+    placeholderData: (previousData, previousQuery) => previousData,
   });
 
   if (isLoading) {
@@ -70,7 +71,6 @@ export function YearlySalesChart() {
               <SelectItem value="2024">2024</SelectItem>
               <SelectItem value="2023">2023</SelectItem>
               <SelectItem value="2022">2022</SelectItem>
-              <SelectItem value="2022">2021</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>

@@ -56,6 +56,7 @@ export function MonthlySalesChart() {
     queryFn: () => fetchMonthlySalesReport({ year, month }),
     enabled: !!month && !!year,
     refetchOnWindowFocus: false,
+    placeholderData: (previousData, previousQuery) => previousData,
   });
 
   if (isLoading) {
