@@ -81,6 +81,17 @@ export const SalesColumns = [
   {
     accessorKey: 'created_at',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Sale date" />,
+    filterFn: (row, columnId, filterValue, addMeta) => {
+      const startDate = new Date(filterValue.startDate);
+      const endDate = new Date(filterValue.endDate);
+      
+      if (startDate && endDate) {
+        const date = new Date(row.original.created_at);
+        return date >= startDate && date <= endDate;
+      }
+
+      return true;
+    },
   },
   {
     accessorKey: 'products',
