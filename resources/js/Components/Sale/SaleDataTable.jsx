@@ -102,9 +102,14 @@ export function SaleDataTable({ columns, data }) {
 }
 
 const ExportSalesButton = ({ table }) => {
+  const salesTableFilters = table.getState().columnFilters.reduce((acc, filter) => {
+    acc[filter.id] = filter.value;
+    return acc;
+  }, {});
+  
   const handleExport = async () => {
     const response = await fetchExportSales({
-      test: 'test',
+      ...salesTableFilters,
     });
 
     // Extract the filename from the Content-Disposition header

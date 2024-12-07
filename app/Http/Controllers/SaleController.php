@@ -88,7 +88,9 @@ class SaleController extends Controller
             $fileFormat = '.xlsx';
             $fileName = 'Sales_' . now()->format('YmdHis') . $fileFormat;
 
-            return Excel::download(new SalesExport, $fileName);
+            $dateRangeFilter = $request->input('created_at', null);
+
+            return Excel::download(new SalesExport($dateRangeFilter), $fileName);
         } catch (\Throwable $th) {
             throw $th;
         }

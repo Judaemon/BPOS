@@ -12,6 +12,13 @@ use Maatwebsite\Excel\DefaultValueBinder;
 
 class SalesExport extends DefaultValueBinder implements FromCollection, ShouldAutoSize, WithCustomValueBinder, WithHeadings
 {
+    protected $dateRangeFilter; // can be a DTO
+
+    public function __construct($dateRangeFilter)
+    {
+        $this->dateRangeFilter = $dateRangeFilter;
+    }
+
     public function bindValue(Cell $cell, $value)
     {
         // Formats the value of the cell
@@ -27,14 +34,20 @@ class SalesExport extends DefaultValueBinder implements FromCollection, ShouldAu
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
-        $sales = Sale::query()
-            ->with(['seller'])
-            ->get()
-            ->map(function ($sale){
+        $salesQuery = Sale::query()
+            ->with(['seller']);
+
+
+        if ($this->dateRangeFilter) {
+            $salesQuery->whereBetween('created_at', [$this->dateRangeFilter['startDate'], $this->dateRangeFilter['endDate']]);
+        }
+
+        $sales = $salesQuery->get()
+            ->map(function ($sale) {
                 return [
                     'Sale ID' => $sale->id,
                     'Receipt Number' => $sale->receipt_number,
