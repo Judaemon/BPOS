@@ -46,7 +46,6 @@ export function SaleDataTableToolbar({ table }) {
   const handleSaleDateChange = (selectedYear, selectedMonth) => {
     // Only year is selected: Full year range
     if (selectedYear && !selectedMonth) {
-      console.log('selectedYear wla year', selectedYear);
       const startDate = new Date(selectedYear, 0, 1); // January 1st
       const endDate = new Date(selectedYear, 11, 31); // December 31st
       table.getColumn('created_at')?.setFilterValue({

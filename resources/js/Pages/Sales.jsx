@@ -1,8 +1,7 @@
-import { SalesColumns } from '@/Components/Sale/SaleColumns';
-import { SaleDataTable } from '@/Components/Sale/SaleDataTable';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-
+import { SaleDataTable } from '@/Components/Sale/SaleDataTable';
+import { SalesColumns } from '@/Components/Sale/SaleColumns';
 
 export default function Products({ auth, sales }) {
 
