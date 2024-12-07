@@ -13,6 +13,13 @@ use Maatwebsite\Excel\DefaultValueBinder;
 
 class ProductExport extends DefaultValueBinder implements FromCollection, ShouldAutoSize, WithCustomValueBinder, WithHeadings
 {
+    protected $status; // can be a DTO
+
+    public function __construct($status)
+    {
+        $this->status = $status;
+    }
+
     public function bindValue(Cell $cell, $value)
     {
         // Formats the value of the cell
@@ -32,7 +39,7 @@ class ProductExport extends DefaultValueBinder implements FromCollection, Should
      */
     public function collection()
     {
-        $products = Product::query()
+        $productsQuery = Product::query()
             ->select([
                 'id',
                 'name',
@@ -42,12 +49,17 @@ class ProductExport extends DefaultValueBinder implements FromCollection, Should
                 'price',
                 'stock',
                 'status'
-            ])
-            ->get();
+            ]);
+
+        if ($this->status) {
+            $productsQuery->whereIn('status', $this->status);
+        }
+
+        $products = $productsQuery->get();
 
         return $products;
     }
-    
+
     /**
      * @return array
      */

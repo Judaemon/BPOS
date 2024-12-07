@@ -67,7 +67,9 @@ class ProductController extends Controller
             $fileFormat = '.xlsx';
             $fileName = 'Products' . now()->format('YmdHis') . $fileFormat;
 
-            return Excel::download(new ProductExport, $fileName);
+            $statusFilter = $request->input('status', null);
+
+            return Excel::download(new ProductExport($statusFilter), $fileName);
         } catch (\Throwable $th) {
             throw $th;
         }

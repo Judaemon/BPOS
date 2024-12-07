@@ -116,9 +116,14 @@ const MemoizedProductDialog = memo(function ProductDialogTest({ action }) {
 });
 
 const ExportProductButton = ({ table }) => {
+  const filters = table.getState().columnFilters.reduce((acc, filter) => {
+    acc[filter.id] = filter.value;
+    return acc;
+  }, {});
+
   const handleExport = async () => {
     const response = await fetchExportProduct({
-      test: 'test',
+      ...filters
     });
 
     // Extract the filename from the Content-Disposition header
