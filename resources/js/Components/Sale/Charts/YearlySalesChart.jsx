@@ -7,7 +7,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/shadcn/ui/card';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/shadcn/ui/chart';
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@/shadcn/ui/chart';
 import {
   Select,
   SelectContent,
@@ -27,15 +33,15 @@ import { useState } from 'react';
 const chartConfig = {
   total_sales: {
     label: 'Total Sales',
-    color: "hsl(var(--chart-1))",
+    color: 'hsl(var(--chart-1))',
   },
   total_quantity: {
     label: 'Total Quantity',
-    color: "hsl(var(--chart-2))",
+    color: 'hsl(var(--chart-2))',
   },
   total_revenue: {
     label: 'Total Quantity',
-    color: "hsl(var(--chart-3))",
+    color: 'hsl(var(--chart-3))',
   },
 };
 
@@ -92,13 +98,15 @@ export function YearlySalesChart() {
             <Bar dataKey="total_sales" fill="var(--color-total_sales)" radius={4} />
             <Bar dataKey="total_quantity" fill="var(--color-total_quantity)" radius={4} />
             <Bar dataKey="total_revenue" fill="var(--color-total_revenue)" radius={4} />
+            <ChartLegend content={<ChartLegendContent />} />
           </BarChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="leading-none text-muted-foreground">
-          Showing total sales, quantity, and revenue from {getMonthName(data[0].month)} to {' '}
-          {getMonthName(data[data.length - 1].month)}.
+          {`Showing total sales, quantity, and revenue from ${getMonthName(
+            data[0].month,
+          )} to ${getMonthName(data.at(-1).month)}.`}
         </div>
       </CardFooter>
     </Card>

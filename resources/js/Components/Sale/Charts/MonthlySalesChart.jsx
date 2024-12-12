@@ -7,7 +7,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/shadcn/ui/card';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/shadcn/ui/chart';
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@/shadcn/ui/chart';
 import {
   Select,
   SelectContent,
@@ -152,6 +158,7 @@ export function MonthlySalesChart() {
               stroke="var(--color-total_revenue)"
               stackId="a"
             />
+            <ChartLegend content={<ChartLegendContent />} />
           </AreaChart>
         </ChartContainer>
       </CardContent>
