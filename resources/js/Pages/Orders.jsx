@@ -51,7 +51,10 @@ const CartList = () => {
         <div className="ml-auto">₱ {state.total}</div>
       </div>
       <hr className="my-2" />
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2">
+        <Button variant="outline" onClick={actions.clearCart}>
+          Clear Cart
+        </Button>
         <CheckOutFormDrawerDialog />
       </div>
     </div>
@@ -100,11 +103,15 @@ const QuantityInput = ({ item }) => {
   };
 
   return (
-    <div className="flex space-x-4">
+    <div className="flex items-center space-x-4">
       <Button variant="outline" onClick={handleReduceQuantity}>
         -
       </Button>
-      <p className=" font-bold">{item.quantity}</p>
+
+      <div className="flex items-center justify-center w-9 h-9">
+        <p className="font-bold">{item.quantity}</p>
+      </div>
+
       <Button variant="outline" onClick={handleIncreaseQuantity}>
         +
       </Button>

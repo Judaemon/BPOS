@@ -71,6 +71,9 @@ const Store = createStore({
       ({ setState, getState }) => {
         setState({ items: [], total: 0 });
       },
+    clearCart: () => ({ setState }) => {
+      setState({ items: [], total: 0 });
+    },
   },
 });
 
