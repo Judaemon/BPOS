@@ -155,11 +155,11 @@ export function MonthlySalesChart() {
           </AreaChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
+      {/* <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="leading-none text-muted-foreground">
           Showing total sales, quantity, and revenue for the month of {getMonthName(data[0].day)}
         </div>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 }
