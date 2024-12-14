@@ -45,10 +45,15 @@ export default function Authenticated({ user, header, children }) {
                   </NavLink>
                 )}
 
+                {hasRole('admin') && (
+                  <NavLink href={route('users.index')} active={route().current('users.index')}>
+                    Users
+                  </NavLink>
+                )}
+
                 <NavLink href={route('order.index')} active={route().current('order.index')}>
                   Orders
                 </NavLink>
-
               </div>
             </div>
 

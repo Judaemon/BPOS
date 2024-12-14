@@ -9,6 +9,7 @@ use App\Services\TestService;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\GCashController;
+use App\Http\Controllers\UserController;
 use App\Services\SaleReportService;
 
 Route::get('/', function () {
@@ -31,6 +32,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('sale/export', [SaleController::class, 'export'])->name('sales.export');
     Route::get('sale/yearly-report', [SaleController::class, 'yearlyReport'])->name('sales.export');
     Route::get('sale/monthly-report', [SaleController::class, 'monthlyReport']);
+
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
 });
 
 Route::middleware(['auth'])->group(function () {
