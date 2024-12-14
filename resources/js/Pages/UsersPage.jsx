@@ -1,5 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import { UserDataTable } from '@/Components/Users/UserDataTable';
+import { UserTableColumns } from '@/Components/Users/UserTableColumns';
 
 export default function UsersPage({ auth, users }) {
 
@@ -19,7 +21,7 @@ export default function UsersPage({ auth, users }) {
           <div className="p-6 space-y-6 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="text-gray-900 dark:text-gray-100">Users!</div>
 
-            {/* Users table */}
+            <UserDataTable columns={UserTableColumns} data={users} />
           </div>
         </div>
       </div>
