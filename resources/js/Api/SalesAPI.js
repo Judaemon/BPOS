@@ -24,3 +24,11 @@ export const fetchMonthlySalesReport = async (params) => {
 
   return response.data;
 }
+
+export const fetchTrendingProduct = async (params) => {
+  const response = await apiClient.get('/sale/trending-products', {
+    params: params,
+  });
+
+  return response.data;
+};

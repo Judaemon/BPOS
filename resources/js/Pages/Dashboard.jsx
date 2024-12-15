@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { MonthlySalesChart } from '@/Components/Sale/Charts/MonthlySalesChart';
-import { TrendingUp } from 'lucide-react';
+import { TrendingProductList } from '@/Components/Sale/Charts/TrendingProductList';
 import { YearlySalesChart } from '../Components/Sale/Charts/YearlySalesChart';
 import { hasRole } from '@/lib/permissions';
 
@@ -22,6 +22,12 @@ export default function Dashboard({ auth }) {
           <div className="bg-white p-6 grid gap-2 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             {hasRole('admin') && (
               <div className="grid gap-4 text-black">
+                <div className="flex justify-between">
+                  <div className="w-1/2">
+                    <TrendingProductList />
+                  </div>
+                  {/* <div>almost out of stock</div> */}
+                </div>
                 <YearlySalesChart/>
 
                 <MonthlySalesChart />
