@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\UpdatePasswordRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -15,6 +17,27 @@ class UserController extends Controller
             'users' => $users
         ]);
     }
+
+    public function updatePassword(UpdatePasswordRequest $request, User $user)
+    {
+        try {
+            $validated = $request->validated();
+
+            $user->update([
+                'password' => Hash::make($validated['password']),
+            ]);
+
+            return response()->json([
+                'message' => 'Password updated successfully'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Failed to update password',
+                'error' => $th->getMessage()
+            ], 500);
+        }
+    }
+
 
     // public function create()
     // {

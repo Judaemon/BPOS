@@ -11,6 +11,7 @@ import { Button } from '@/shadcn/ui/button';
 import { Checkbox } from '@/shadcn/ui/checkbox';
 import { DataTableColumnHeader } from '../DataTable/data-table-column-header';
 import { MoreHorizontal } from 'lucide-react';
+import { UpdatePasswordDialog } from './UpdatePassword';
 
 export const UserTableColumns = [
   {
@@ -70,7 +71,7 @@ export const UserTableColumns = [
               <DropdownMenuSeparator />
 
               <div className="flex flex-col gap-2">
-                {/* <UpdatePasswordDialog user={user}/> */}
+                <UpdatePasswordDialog user={user}/>
               </div>
             </DropdownMenuContent>
           </DropdownMenu>

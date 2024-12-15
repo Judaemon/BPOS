@@ -34,6 +34,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('sale/monthly-report', [SaleController::class, 'monthlyReport']);
 
     Route::get('users', [UserController::class, 'index'])->name('users.index');
+    Route::post('users/{user}/update-password', [UserController::class, 'updatePassword'])->name('users.update-password');
 });
 
 Route::middleware(['auth'])->group(function () {
