@@ -22,19 +22,7 @@ export default function Dashboard({ auth }) {
           <div className="bg-white p-6 grid gap-2 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             {hasRole('admin') && (
               <div className="grid gap-4 text-black">
-                <YearlySalesChart
-                  data={[]}
-                  footerContent={
-                    <div>
-                      <div className="flex gap-2 font-medium leading-none">
-                        Trending up by 2.3% this month <TrendingUp className="h-4 w-4" />
-                      </div>
-                      <div className="leading-none text-muted-foreground">
-                        Showing total sales from May to Sept
-                      </div>
-                    </div>
-                  }
-                />
+                <YearlySalesChart/>
 
                 <MonthlySalesChart />
               </div>
