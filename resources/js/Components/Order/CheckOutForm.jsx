@@ -27,6 +27,7 @@ import { ToastAction } from '@/shadcn/ui/toast';
 import { cn } from '@/lib/utils';
 import { useCart } from '@/hooks/Cart';
 import { useMediaQuery } from '@/hooks/use-media-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/shadcn/ui/use-toast';
 
 export function CheckOutFormDrawerDialog() {
@@ -143,6 +144,9 @@ const CheckOutForm = ({ className, onSubmit }) => {
         setError(error);
       },
     });
+
+    const queryClient = useQueryClient()
+    queryClient.invalidateQueries('product-reports')
   };
 
   const handlePaymentMethodChange = (paymentMethod) => {
