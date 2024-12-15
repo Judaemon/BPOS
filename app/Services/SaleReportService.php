@@ -67,4 +67,26 @@ class SaleReportService
             return collect();
         }
     }
+
+    public function trendingProducts()
+    {
+        try {
+            $trendingProducts = Sale::select(
+                'products.name',
+                DB::raw('SUM(sale_product.quantity) as total_quantity'),
+                DB::raw('SUM(sale_product.item_total) as total_revenue')
+            )
+                ->join('sale_product', 'sales.id', '=', 'sale_product.sale_id')
+                ->join('products', 'sale_product.product_id', '=', 'products.id')
+                ->groupBy('products.name')
+                ->orderByDesc('total_quantity')
+                ->limit(5)
+                ->get();
+
+            return $trendingProducts;
+        } catch (\Exception $e) {
+            \Log::error('Error generating trending products report: ' . $e->getMessage());
+            return response()->json(['error' => 'Unable to fetch trending products'], 500);
+        }
+    }
 }

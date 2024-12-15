@@ -120,4 +120,15 @@ class SaleController extends Controller
             throw $th;
         }
     }
+
+    public function trendingProducts(Request $request)
+    {
+        try {
+            $trendingProducts = $this->saleReportService->trendingProducts();
+
+            return $trendingProducts->toArray();
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }
