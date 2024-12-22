@@ -1,4 +1,4 @@
-import { Bar, BarChart, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from 'recharts';
 import {
   Card,
   CardContent,
@@ -29,21 +29,24 @@ export function TrendingProductList() {
   }
 
   // Transform API response into chartConfig and chartData
-  const chartConfig = data.reduce((config, product, index) => {
-    const color = `hsl(var(--chart-${index + 1}))`;
+  const chartConfig = {
+    label: {
+      color: 'hsl(var(--background))',
+    },
+  };
 
-    config[product.name] = {
+  const chartData = data.map((product, index) => {
+    const color = `hsl(var(--chart-${index + 1}))`;
+    chartConfig[product.name] = {
       label: product.name,
       color,
     };
-    return config;
-  }, {});
-
-  const chartData = data.map((product) => ({
-    name: product.name,
-    quantity: parseInt(product.total_quantity, 10),
-    fill: chartConfig[product.name]?.color,
-  }));
+    return {
+      name: product.name,
+      quantity: parseInt(product.total_quantity, 10),
+      fill: color,
+    };
+  });
 
   return (
     <Card className="w-full">
@@ -58,20 +61,37 @@ export function TrendingProductList() {
             data={chartData}
             layout="vertical"
             margin={{
-              left: 0,
+              right: 12,
             }}
           >
+            <CartesianGrid horizontal={false} height={'100px'} />
             <YAxis
               dataKey="name"
               type="category"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => chartConfig[value]?.label}
+              tickFormatter={(value) => chartConfig[value]?.label || value}
+              hide
             />
             <XAxis dataKey="quantity" type="number" hide />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-            <Bar dataKey="quantity" layout="vertical" radius={5} />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
+            <Bar dataKey="quantity" layout="vertical" radius={4} barSize={40}>
+              <LabelList
+                dataKey="name"
+                position="insideLeft"
+                offset={8}
+                className="fill-[--color-label]"
+                fontSize={12}
+              />
+              <LabelList
+                dataKey="quantity"
+                position="right"
+                offset={8}
+                className="fill-foreground"
+                fontSize={12}
+              />
+            </Bar>
           </BarChart>
         </ChartContainer>
       </CardContent>
