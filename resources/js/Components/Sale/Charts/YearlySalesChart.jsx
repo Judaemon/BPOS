@@ -37,11 +37,11 @@ const chartConfig = {
   },
   total_quantity: {
     label: 'Total Quantity',
-    color: 'hsl(var(--chart-2))',
+    color: 'hsl(var(--chart-3))',
   },
   total_revenue: {
     label: 'Total Quantity',
-    color: 'hsl(var(--chart-3))',
+    color: 'hsl(var(--chart-5))',
   },
 };
 
