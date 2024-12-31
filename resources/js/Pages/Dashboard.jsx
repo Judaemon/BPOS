@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { MonthlySalesChart } from '@/Components/Sale/Charts/MonthlySalesChart';
+import OutOfStockTable from '@/Components/Products/OutOfStockTable';
 import { TrendingProductList } from '@/Components/Sale/Charts/TrendingProductList';
 import { YearlySalesChart } from '../Components/Sale/Charts/YearlySalesChart';
 import { hasRole } from '@/lib/permissions';
@@ -22,13 +23,16 @@ export default function Dashboard({ auth }) {
           <div className="bg-white p-6 grid gap-2 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             {hasRole('admin') && (
               <div className="grid gap-4 text-black">
-                <div className="flex justify-between">
-                  <div className="w-1/2">
+                <div className="flex gap-4 justify-between">
+                  <div className="w-2/3">
                     <TrendingProductList />
                   </div>
-                  {/* <div>almost out of stock</div> */}
+
+                  <div className="w-1/3">
+                    <OutOfStockTable />
+                  </div>
                 </div>
-                <YearlySalesChart/>
+                <YearlySalesChart />
 
                 <MonthlySalesChart />
               </div>

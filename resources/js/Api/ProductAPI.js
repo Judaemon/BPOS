@@ -8,3 +8,11 @@ export async function fetchExportProduct(params) {
 
   return response;
 }
+
+export const fetchOutOfStockProduct = async (params) => {
+  const response = await apiClient.get('/products/low-sock', {
+    params: params,
+  });
+
+  return response.data;
+};

@@ -74,4 +74,22 @@ class ProductController extends Controller
             throw $th;
         }
     }
+
+    public function lowStock(Request $request)
+    {
+        try {
+            $threshold = 5;
+            $products = Product::query()
+                ->where('stock', '<=', $threshold)
+                ->orderBy('stock', 'desc')
+                ->get();
+
+            return response()->json([
+                'status' => 'success',
+                'products' => $products,
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 }
