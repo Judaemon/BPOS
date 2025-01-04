@@ -30,6 +30,7 @@ import { useToast } from '@/shadcn/ui/use-toast';
 export default function ProductDialog({ product, setProduct, action, dialogTrigger }) {
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const { data, setData, post, processing, errors, setError, clearErrors, reset } = useForm({
     id: product.id || null,
@@ -94,9 +95,6 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
     } else if (action === 'updating') {
       updateProduct();
     }
-
-    const queryClient = useQueryClient();
-    queryClient.invalidateQueries('products');
     queryClient.invalidateQueries(['products']);
   }
 
