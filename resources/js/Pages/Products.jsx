@@ -1,6 +1,6 @@
+import { DataTable, MemoizedProductDialog } from '@/Components/Products/DataTable';
+
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Button } from '@/shadcn/ui/button';
-import { DataTable } from '@/Components/Products/DataTable';
 import { Head } from '@inertiajs/react';
 import { Input } from '@/shadcn/ui/input';
 import { PRODUCT_STATUS } from '@/data/status';
@@ -59,7 +59,8 @@ export default function Products({ auth }) {
                     className="h-8 w-[150px] lg:w-[250px]"
                   />
                 </div>
-                {/* <Button variant="primary">Create Product</Button> */}
+
+                <MemoizedProductDialog action="creating" />
               </div>
             </div>
 
@@ -69,7 +70,7 @@ export default function Products({ auth }) {
               ))}
             </div>
 
-            {/* <DataTable columns={columns} data={products} /> */}
+            <DataTable columns={columns} data={products} />
           </div>
         </div>
       </div>

@@ -101,7 +101,7 @@ export function DataTable({ columns, data }) {
   );
 }
 
-const MemoizedProductDialog = memo(function ProductDialogTest({ action }) {
+export const MemoizedProductDialog = memo(function ProductDialogTest({ action }) {
   return (
     <ProductDialog
       product={{}}

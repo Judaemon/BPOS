@@ -23,6 +23,7 @@ import InputError from '../InputError';
 import { Label } from '@/shadcn/ui/label';
 import { PRODUCT_STATUS } from '@/data/status';
 import { capitalizeFirstLetter } from '@/Helpers/StringHelper';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useToast } from '@/shadcn/ui/use-toast';
 
@@ -93,6 +94,10 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
     } else if (action === 'updating') {
       updateProduct();
     }
+
+    const queryClient = useQueryClient();
+    queryClient.invalidateQueries('products');
+    queryClient.invalidateQueries(['products']);
   }
 
   return (
