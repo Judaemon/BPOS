@@ -75,6 +75,7 @@ export default function ProductDialog({ product, setProduct, action, dialogTrigg
         });
         clearErrors();
         setOpen(false);
+        queryClient.invalidateQueries(['products']);
       },
       onError: (error) => {
         setError(error);
