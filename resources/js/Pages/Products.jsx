@@ -1,6 +1,16 @@
 import { DataTable, MemoizedProductDialog } from '@/Components/Products/DataTable';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/shadcn/ui/select';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import { Button } from '@/shadcn/ui/button';
 import { Head } from '@inertiajs/react';
 import { Input } from '@/shadcn/ui/input';
 import { PRODUCT_STATUS } from '@/data/status';
@@ -12,14 +22,15 @@ import { useState } from 'react';
 
 export default function Products({ auth }) {
   const [search, setSearch] = useState('');
+  const [status, setStatus] = useState('');
 
   const {
     data: products,
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['products', { search }],
-    queryFn: () => fetchProducts({ search }),
+    queryKey: ['products', { search, status }],
+    queryFn: () => fetchProducts({ search, product_status: status }),
     refetchOnWindowFocus: false,
     placeholderData: (previousData, previousQuery) => previousData,
   });
@@ -58,6 +69,39 @@ export default function Products({ auth }) {
                     onChange={(event) => setSearch(event.target.value)}
                     className="h-8 w-[150px] lg:w-[250px]"
                   />
+                  <div>
+                    <Select value={status} onValueChange={(value) => setStatus(value)}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Select status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Status</SelectLabel>
+                          {PRODUCT_STATUS.map((status) => (
+                            <SelectItem key={status.value} value={status.value}>
+                              {status.label}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* clear */}
+                  {(search || status) && (
+                    <div>
+                      <Button
+                        onClick={() => {
+                          setStatus('');
+                          setSearch('');
+                        }}
+                        className=""
+                        size="sm"
+                      >
+                        Clear
+                      </Button>
+                    </div>
+                  )}
                 </div>
 
                 <MemoizedProductDialog action="creating" />
@@ -70,7 +114,7 @@ export default function Products({ auth }) {
               ))}
             </div>
 
-            <DataTable columns={columns} data={products} />
+            {/* <DataTable columns={columns} data={products} /> */}
           </div>
         </div>
       </div>
