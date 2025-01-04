@@ -1,5 +1,13 @@
 import { apiClient } from '@/bootstrap';
 
+export const fetchProducts = async (params) => {
+  const response = await apiClient.get('/products/list', {
+    params: params,
+  });
+
+  return response.data;
+};
+
 export async function fetchExportProduct(params) {
   const response = await apiClient.get('/products/export', {
     params: params,

@@ -25,6 +25,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('products/list', [ProductController::class, 'list']);
     Route::resource('/product', ProductController::class);
     Route::post('product/{product}', [ProductController::class, 'update'])->name('product.update');
     Route::get('products/export', [ProductController::class, 'export'])->name('product.export');

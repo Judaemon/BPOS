@@ -12,13 +12,30 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
+        return Inertia::render('Products', []);
+    }
 
-        return Inertia::render('Products', [
-            'products' => $products,
-        ]);
+    public function list(Request $request)
+    {
+        $search = $request->input('search', null);
+        $productStatus = $request->input('product_status', null);
+        $perPage = $request->input('per_page', 10);
+
+        $products = Product::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%$search%");
+            })
+            ->when($productStatus, function ($query, $productStatus) {
+                return $query->where('status', $productStatus);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage);
+
+        return response()->json(
+            $products,
+        );
     }
 
     public function store(ProductStoreRequest $request)

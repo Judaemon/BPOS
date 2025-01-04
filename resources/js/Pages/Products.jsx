@@ -2,11 +2,35 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Button } from '@/shadcn/ui/button';
 import { DataTable } from '@/Components/Products/DataTable';
 import { Head } from '@inertiajs/react';
+import { Input } from '@/shadcn/ui/input';
+import { PRODUCT_STATUS } from '@/data/status';
 import { ProductItemCard } from '@/Components/Products/ProductItemCard';
 import { columns } from '@/Components/Products/ProductsColumns';
+import { fetchProducts } from '@/Api/ProductAPI';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
-export default function Products({ auth, products }) {
-  console.log(products);
+export default function Products({ auth }) {
+  const [search, setSearch] = useState('');
+
+  const {
+    data: products,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['products', { search }],
+    queryFn: () => fetchProducts({ search }),
+    refetchOnWindowFocus: false,
+    placeholderData: (previousData, previousQuery) => previousData,
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error fetching data</div>;
+  }
 
   return (
     <AuthenticatedLayout
@@ -24,12 +48,27 @@ export default function Products({ auth, products }) {
           <div className="p-6 space-y-6 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="text-gray-900 dark:text-gray-100">Products!</div>
 
+            <div>
+              {/* search */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <Input
+                    placeholder="Search product..."
+                    value={search}
+                    onChange={(event) => setSearch(event.target.value)}
+                    className="h-8 w-[150px] lg:w-[250px]"
+                  />
+                </div>
+                {/* <Button variant="primary">Create Product</Button> */}
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {products.map((product) => (
+              {products.data.map((product) => (
                 <ProductItemCard key={product.id} product={product} />
               ))}
             </div>
-            
+
             {/* <DataTable columns={columns} data={products} /> */}
           </div>
         </div>
