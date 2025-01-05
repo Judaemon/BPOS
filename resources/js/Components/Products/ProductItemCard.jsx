@@ -21,7 +21,7 @@ export const ProductItemCard = ({ product }) => {
       action="updating"
       dialogTrigger={
         <Card className="w-full transition-transform transform hover:scale-105 hover:shadow-lg hover:cursor-pointer">
-          <CardHeader>
+          <CardHeader className='text-left'>
             <CardTitle>{name}</CardTitle>
             <CardDescription>
               {price} | {stock}
