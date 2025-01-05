@@ -21,7 +21,7 @@ class ProductController extends Controller
     {
         $search = $request->input('search', null);
         $productStatus = $request->input('product_status', null);
-        $perPage = $request->input('per_page', 10);
+        $perPage = $request->input('per_page', 12);
 
         $products = Product::query()
             ->when($search, function ($query, $search) {
