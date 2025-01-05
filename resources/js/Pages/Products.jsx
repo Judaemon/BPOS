@@ -15,6 +15,7 @@ import { Head } from '@inertiajs/react';
 import { Input } from '@/shadcn/ui/input';
 import { PRODUCT_STATUS } from '@/data/status';
 import { ProductItemCard } from '@/Components/Products/ProductItemCard';
+import TablePagination from '@/Components/UI/Pagination';
 import { columns } from '@/Components/Products/ProductsColumns';
 import { fetchProducts } from '@/Api/ProductAPI';
 import { useQuery } from '@tanstack/react-query';
@@ -23,14 +24,16 @@ import { useState } from 'react';
 export default function Products({ auth }) {
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('');
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(12);
 
   const {
-    data: products,
+    data: productsTable,
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['products', { search, status }],
-    queryFn: () => fetchProducts({ search, product_status: status }),
+    queryKey: ['products', { search, status, page, perPage }],
+    queryFn: () => fetchProducts({ search, product_status: status, page, per_page: perPage }),
     refetchOnWindowFocus: false,
     placeholderData: (previousData, previousQuery) => previousData,
   });
@@ -109,12 +112,14 @@ export default function Products({ auth }) {
             </div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {products.data.map((product) => (
+              {productsTable.data.map((product) => (
                 <ProductItemCard key={product.id} product={product} />
               ))}
             </div>
 
-            {/* <DataTable columns={columns} data={products} /> */}
+            <div className="flex w-full justify-end">
+              <TablePagination table={productsTable} setPage={setPage} setPerPage={setPerPage} />
+            </div>
           </div>
         </div>
       </div>
